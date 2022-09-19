@@ -1,0 +1,9 @@
+type VotingCategory {
+  id: ID! @id
+  name: String!
+  votings: [Voting] @relation(name: "VotingCategory")
+  startAt: DateTime!
+  endAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,14 @@
+type StreamerApplication {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  declineReason: String
+  email: String!
+  name: String!
+  channelLink: String!
+  over16: Boolean!
+  titles: String!
+  reason: String!
+  goals: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

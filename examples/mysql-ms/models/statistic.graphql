@@ -1,0 +1,9 @@
+type Statistic {
+  id: ID! @id
+  user: [User]! @relation(name: "StatisticUser")
+  name: String!
+  value: Int!
+  game: Game! @relation(name: "StatisticGame")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,9 @@
+type BattleRoyaleScore {
+  id: ID! @id
+  name: String! @unique
+  positions: String!
+  kills: Int! @default(value: 0)
+  isPreset: Boolean! @default(value: false)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

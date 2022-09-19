@@ -1,0 +1,11 @@
+type SpinnerTransaction {
+  id: ID! @id
+  user: SpinnerUser! @relation(name: "SpinnerUserTransactions")
+  spinnerWinner: SpinnerWinner @relation(name: "SpinnerWinnerTransaction")
+  type: String!
+  description: String
+  amount: Int! @default(value: 0)
+  createdBy: User!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

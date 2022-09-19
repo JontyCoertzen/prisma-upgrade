@@ -1,0 +1,16 @@
+type SocialAccount {
+  id: ID! @id
+  icon: Media @relation(name: "SocialAccountIcon")
+  userSocialAccount: [UserSocialAccount]
+    @relation(name: "SocialAccountUserSocialAccount", onDelete: CASCADE)
+  teamSocialAccount: [TeamSocialAccount]
+    @relation(name: "SocialAccountTeamSocialAccount", onDelete: CASCADE)
+  organisationSocialAccount: [OrganisationSocialAccount]
+    @relation(name: "SocialAccountOrganisationSocialAccount", onDelete: CASCADE)
+  color: String!
+  linkType: String! @default(value: "text")
+  name: String! @unique
+  accountType: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

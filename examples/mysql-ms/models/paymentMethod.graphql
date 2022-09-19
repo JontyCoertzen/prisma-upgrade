@@ -1,0 +1,13 @@
+type PaymentMethod {
+  id: ID! @id
+  user: User! @relation(name: "UserPaymentMethods")
+  isDefault: Boolean! @default(value: true)
+  binCountry: String
+  last4Digits: String
+  holder: String
+  expiryMonth: String
+  expiryYear: String
+  brand: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

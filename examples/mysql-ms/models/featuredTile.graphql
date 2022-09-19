@@ -1,0 +1,23 @@
+type FeaturedTile {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  order: Int! @default(value: 0)
+  name: String! @unique
+  link: String!
+  linkTarget: String! @default(value: "_top")
+  linkType: String! @default(value: "link")
+  modalTitle: String
+  modalContent: String
+  modalCss: String
+  modalTheme: String
+  modalHeader: Boolean @default(value: true)
+  backgroundImage: Media
+  content: String!
+  customCss: String
+  analytics: [Analytics]
+  client: Client @relation(name: "ClientFeaturedTile")
+  showOnDesktop: Boolean! @default(value: true)
+  showOnMobile: Boolean! @default(value: true)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,51 @@
+type Survey {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  name: String! @unique
+  slug: String! @unique
+  description: String
+  banner: Media @relation(name: "SurveyBanner")
+  popupBanner: Media @relation(name: "SurveyPopupBanner")
+  endCondition: String! @default(value: "manual")
+  startAt: DateTime
+  endAt: DateTime
+  fulfillmentTarget: Int
+  questions: [SurveyQuestion]
+    @relation(name: "SurveyQuestions", onDelete: CASCADE)
+  fulfillments: [SurveyFulfillment]
+    @relation(name: "SurveyFulfillments", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type SurveyQuestion {
+  id: ID! @id
+  survey: Survey @relation(name: "SurveyQuestions")
+  fulfillmentAnswers: [SurveyAnswer]
+    @relation(name: "SurveyQuestionAnswers", onDelete: CASCADE)
+  type: String!
+  inputType: String
+  label: String!
+  answers: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type SurveyFulfillment {
+  id: ID! @id
+  survey: Survey @relation(name: "SurveyFulfillments")
+  user: User! @relation(name: "UserSurveys")
+  answers: [SurveyAnswer]
+    @relation(name: "SurveyFulfillmentAnswer", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type SurveyAnswer {
+  id: ID! @id
+  fulfillment: SurveyFulfillment @relation(name: "SurveyFulfillmentAnswer")
+  question: SurveyQuestion @relation(name: "SurveyQuestionAnswers")
+  answer: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

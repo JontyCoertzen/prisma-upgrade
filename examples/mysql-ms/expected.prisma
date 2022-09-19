@@ -1,0 +1,2950 @@
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
+// model ActivityEvent {
+//   id               String        @id @default(cuid())
+//   type             String
+//   ownerId          String
+//   ownerType        String
+//   relatedId        String?
+//   relatedType      String?
+//   relatedText      String?
+//   showRelatedImage Boolean?
+//   organisationId   String
+//   organisation     Organisation? @relation("OrganisationActivityEvents", fields: [organisationId], references: [id])
+//   teamId           String?
+//   team             Team?         @relation("TeamActivityEvents", fields: [teamId], references: [id])
+//   userId           String?
+//   user             User?         @relation("UserActivityEvents", fields: [userId], references: [id])
+//   createdAt        DateTime      @default(now())
+//   updatedAt        DateTime      @updatedAt
+// }
+
+// model Address {
+//   id             String          @id @default(cuid())
+//   type           String
+//   line1          String
+//   line2          String?
+//   city           String
+//   code           String
+//   province       String
+//   client         Client?         @relation(name: "ClientAddress")
+//   giveawayWinner GiveawayWinner?
+//   spinnerWinner  SpinnerWinner?
+//   user           User?
+//   winnerForm     WinnerForm?
+//   createdAt      DateTime
+//   updatedAt      DateTime
+// }
+
+// model Advertisement {
+//   id                    String                 @id @default(cuid())
+//   type                  String
+//   externalLink          String?
+//   clicks                Int
+//   createdAt             DateTime
+//   updatedAt             DateTime
+//   media                 String?
+//   campaign              String?
+//   AdvertisementCampaign AdvertisementCampaign? @relation(fields: [campaign], references: [id])
+//   Media                 Media?                 @relation(fields: [media], references: [id])
+//   Analytics             Analytics[]
+
+//   @@index([campaign], name: "campaign")
+//   @@index([media], name: "media")
+// }
+
+// model AdvertisementCampaign {
+//   id               String             @id @default(cuid())
+//   status           String
+//   type             String
+//   name             String
+//   startAt          DateTime
+//   endAt            DateTime
+//   priority         Boolean
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   client           String?
+//   Client           Client?            @relation(fields: [client], references: [id])
+//   Advertisement    Advertisement[]
+//   CompetitionEvent CompetitionEvent[] @relation("AdvertisementCampaignEvents")
+//   WebsiteSettings  WebsiteSettings[]
+//   Spinner          Spinner[]          @relation("SpinnerAdvertismentCampaigns")
+
+//   @@index([client], name: "client")
+// }
+
+// model Analytics {
+//   id            String          @id @default(cuid())
+//   ip            String?
+//   action        String?
+//   actionId      String?
+//   entityId      String?
+//   entityName    String?
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   user          String?
+//   User          User?           @relation(fields: [user], references: [id])
+//   Advertisement Advertisement[]
+//   FeaturedTile  FeaturedTile[]
+//   Slider        Slider[]
+
+//   @@index([user], name: "user")
+// }
+
+// model Announcement {
+//   id               String             @id @default(cuid())
+//   status           String
+//   name             String
+//   subject          String
+//   content          String
+//   scheduledAt      DateTime?
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   sponsorList      String?
+//   SponsorList      SponsorList?       @relation(fields: [sponsorList], references: [id])
+//   AnnouncementUser AnnouncementUser[]
+//   AuditLog         AuditLog[]
+
+//   @@index([sponsorList], name: "sponsorList")
+// }
+
+// model AnnouncementUser {
+//   id           String        @id @default(cuid())
+//   status       String
+//   read         Boolean
+//   sendError    String?
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   announcement String?
+//   user         String?
+//   Announcement Announcement? @relation(fields: [announcement], references: [id])
+//   User         User?         @relation(fields: [user], references: [id])
+
+//   @@index([announcement], name: "announcement")
+//   @@index([user], name: "user")
+// }
+
+// model Audience {
+//   id        String     @id @default(cuid())
+//   name      String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Campaign  Campaign[]
+//   User      User[]
+// }
+
+// model Audience2 {
+//   id         String    @id @default(cuid())
+//   status     String
+//   opened     Boolean?
+//   bounce     Boolean?
+//   sendError  String?
+//   mandrillId String?
+//   createdAt  DateTime
+//   updatedAt  DateTime
+//   campaign   String?
+//   user       String?
+//   Campaign   Campaign? @relation(fields: [campaign], references: [id])
+//   User       User?     @relation(fields: [user], references: [id])
+
+//   @@index([campaign], name: "campaign")
+//   @@index([user], name: "user")
+// }
+
+// model AuditLog {
+//   id                 String            @id @default(cuid())
+//   action             String
+//   description        String?
+//   relatedObject      String?
+//   relatedObjectId    String?
+//   relatedObjectField String?
+//   oldValue           String?
+//   newValue           String?
+//   otherValue         String?
+//   createdAt          DateTime
+//   updatedAt          DateTime
+//   updatedBy          String?
+//   User               User?             @relation(fields: [updatedBy], references: [id])
+//   Announcement       Announcement[]
+//   Campaign           Campaign[]
+//   CompetitionTeam    CompetitionTeam[]
+//   Team               Team[]
+//   WinnerForm         WinnerForm[]
+//   WithdrawForm       WithdrawForm[]
+//   SpinnerProduct     SpinnerProduct[]  @relation("SpinnerProductLogs")
+//   UserMission        UserMission[]     @relation("UserMissonLogs")
+
+//   @@index([updatedBy], name: "updatedBy")
+// }
+
+// model Award {
+//   id           String         @id @default(cuid())
+//   status       String
+//   type         String
+//   name         String         @unique
+//   description  String?
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   badge        String?
+//   Badge        Badge?         @relation(fields: [badge], references: [id])
+//   Organisation Organisation[] @relation("AwardOrganisations")
+//   Team         Team[]         @relation("AwardTeams")
+//   User         User[]         @relation("AwardUsers")
+
+//   @@index([badge], name: "badge")
+// }
+
+// model Badge {
+//   id                              String         @id @default(cuid())
+//   status                          String
+//   type                            String
+//   order                           Int
+//   name                            String
+//   rarity                          String
+//   createdAt                       DateTime
+//   updatedAt                       DateTime
+//   fallbackLogo                    String?
+//   parent                          String?
+//   logo                            String?
+//   Media_Badge_fallbackLogoToMedia Media?         @relation("Badge_fallbackLogoToMedia", fields: [fallbackLogo], references: [id])
+//   Media_Badge_logoToMedia         Media?         @relation("Badge_logoToMedia", fields: [logo], references: [id])
+//   Badge                           Badge?         @relation("BadgeToBadge_parent", fields: [parent], references: [id])
+//   Award                           Award[]
+//   other_Badge                     Badge[]        @relation("BadgeToBadge_parent")
+//   Mission                         Mission[]
+//   Organisation                    Organisation[] @relation("BadgeOrganisations")
+//   Team                            Team[]         @relation("BadgeTeams")
+//   Badge_B                         Badge[]        @relation("BadgeUpgrades")
+//   Badge_A                         Badge[]        @relation("BadgeUpgrades")
+//   User                            User[]         @relation("BadgeUsers")
+
+//   @@index([fallbackLogo], name: "fallbackLogo")
+//   @@index([logo], name: "logo")
+//   @@index([parent], name: "parent")
+// }
+
+// model BankAccount {
+//   id             String           @id @default(cuid())
+//   type           String
+//   bank           String
+//   accountHolder  String
+//   accountNumber  String
+//   branch         String
+//   branchNumber   String
+//   swiftCode      String?
+//   createdAt      DateTime
+//   updatedAt      DateTime
+//   user           String?
+//   User           User?            @relation(fields: [user], references: [id])
+//   GiveawayWinner GiveawayWinner[]
+//   WinnerForm     WinnerForm[]
+
+//   @@index([user], name: "user")
+// }
+
+// model BatchPayment {
+//   id                 String         @id @default(cuid())
+//   status             String
+//   statusMessage      String?
+//   number             Int
+//   code               String?
+//   amount             String
+//   currency           String
+//   conversionCurrency String?
+//   conversionPrice    String?
+//   conversionDate     DateTime?
+//   paymentProcessor   String
+//   createdAt          DateTime
+//   updatedAt          DateTime
+//   WinnerForm         WinnerForm[]
+//   WithdrawForm       WithdrawForm[]
+// }
+
+// model BattleRoyaleScore {
+//   id               String             @id @default(cuid())
+//   name             String             @unique
+//   positions        String
+//   kills            Int
+//   isPreset         Boolean
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   CompetitionStage CompetitionStage[]
+// }
+
+// model Blurb {
+//   id              String          @id @default(cuid())
+//   status          String
+//   title           String
+//   slug            String          @unique
+//   content         String
+//   excerptOverride Boolean
+//   excerpt         String
+//   link            String?
+//   featured        Boolean?
+//   publishedAt     DateTime
+//   createdAt       DateTime
+//   updatedAt       DateTime
+//   author          String?
+//   logo            String?
+//   BlurbAuthor     BlurbAuthor?    @relation(fields: [author], references: [id])
+//   Media           Media?          @relation(fields: [logo], references: [id])
+//   BlurbCategory   BlurbCategory[] @relation("BlurbCategories")
+//   Realm           Realm[]         @relation("BlurbRealms")
+//   BlurbTag        BlurbTag[]      @relation("BlurbTags")
+
+//   @@index([author], name: "author")
+//   @@index([logo], name: "logo")
+// }
+
+// model BlurbAuthor {
+//   id        String   @id @default(cuid())
+//   name      String
+//   title     String
+//   biography String?
+//   createdAt DateTime
+//   updatedAt DateTime
+//   logo      String?
+//   Media     Media?   @relation(fields: [logo], references: [id])
+//   Blurb     Blurb[]
+
+//   @@index([logo], name: "logo")
+// }
+
+// model BlurbCategory {
+//   id          String        @id @default(cuid())
+//   name        String        @unique
+//   slug        String        @unique
+//   createdAt   DateTime
+//   updatedAt   DateTime
+//   Competition Competition[]
+//   Blurb       Blurb[]       @relation("BlurbCategories")
+// }
+
+// model BlurbTag {
+//   id        String   @id @default(cuid())
+//   name      String   @unique
+//   slug      String   @unique
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Blurb     Blurb[]  @relation("BlurbTags")
+// }
+
+// model BountyLog {
+//   id                                         String            @id @default(cuid())
+//   amount                                     Float
+//   createdAt                                  DateTime
+//   updatedAt                                  DateTime
+//   stage                                      String?
+//   match                                      String?
+//   team                                       String?
+//   CompetitionMatch                           CompetitionMatch? @relation(fields: [match], references: [id])
+//   CompetitionStage                           CompetitionStage? @relation(fields: [stage], references: [id])
+//   CompetitionTeam_BountyLogToCompetitionTeam CompetitionTeam?  @relation(fields: [team], references: [id])
+//   CompetitionTeam_CompetitionTeamBountyLogs  CompetitionTeam[] @relation("CompetitionTeamBountyLogs")
+
+//   @@index([match], name: "match")
+//   @@index([stage], name: "stage")
+//   @@index([team], name: "team")
+// }
+
+// model Breaking {
+//   id          String   @id @default(cuid())
+//   content     String
+//   isLink      Boolean
+//   link        String?
+//   icon        String?
+//   publishedAt DateTime
+//   createdAt   DateTime
+//   updatedAt   DateTime
+// }
+
+// model BugReport {
+//   id                 String   @id @default(cuid())
+//   status             String
+//   number             Int
+//   name               String
+//   email              String
+//   url                String
+//   description        String
+//   location           String?
+//   osVersion          String?
+//   osName             String?
+//   deviceType         String?
+//   browserName        String?
+//   fullBrowserVersion String?
+//   mobileVendor       String?
+//   mobileModel        String?
+//   createdAt          DateTime
+//   updatedAt          DateTime
+//   Media              Media[]
+// }
+
+// model Campaign {
+//   id                String      @id @default(cuid())
+//   status            String
+//   name              String
+//   content           String
+//   html              String
+//   subject           String
+//   audienceSelection String
+//   scheduledAt       DateTime?
+//   createdAt         DateTime
+//   updatedAt         DateTime
+//   audience          String?
+//   Audience          Audience?   @relation(fields: [audience], references: [id])
+//   Audience2         Audience2[]
+//   Recipient         Recipient[]
+//   AuditLog          AuditLog[]
+//   Tag               Tag[]
+
+//   @@index([audience], name: "audience")
+// }
+
+// model CarCategory {
+//   id               String             @id @default(cuid())
+//   name             String
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   game             String?
+//   Game             Game?              @relation(fields: [game], references: [id])
+//   CompetitionEvent CompetitionEvent[]
+//   Livery           Livery[]
+//   Team             Team[]
+
+//   @@index([game], name: "game")
+// }
+
+// model CarMake {
+//   id        String   @id @default(cuid())
+//   name      String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Livery    Livery[]
+// }
+
+// model CarSelection {
+//   id               String            @id @default(cuid())
+//   car              String
+//   number           Int
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   event            String?
+//   CompetitionEvent CompetitionEvent? @relation(fields: [event], references: [id])
+//   CompetitionTeam  CompetitionTeam[]
+
+//   @@index([event], name: "event")
+// }
+
+// model Chat {
+//   id               String             @id @default(cuid())
+//   roomId           String             @unique
+//   type             String
+//   noReply          Boolean?
+//   unread           Int?
+//   requestAdmin     Boolean?
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   CompetitionMatch CompetitionMatch[]
+//   Dispute          Dispute[]
+//   Message          Message[]
+//   User             User[]             @relation("ChatUsers")
+// }
+
+// model CheckIn {
+//   id               String            @id @default(cuid())
+//   updatedAt        DateTime
+//   createdAt        DateTime
+//   user             String?
+//   stage            String?
+//   team             String?
+//   CompetitionStage CompetitionStage? @relation(fields: [stage], references: [id])
+//   CompetitionTeam  CompetitionTeam?  @relation(fields: [team], references: [id])
+//   User             User?             @relation(fields: [user], references: [id])
+
+//   @@index([stage], name: "stage")
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model Client {
+//   id                                 String                  @id @default(cuid())
+//   companyName                        String                  @unique
+//   mainContactFirstName               String
+//   mainContactLastName                String
+//   mainContactEmail                   String
+//   mainContactCellNumber              String?
+//   hasSeperatePaymentContact          Boolean
+//   paymentContactFirstName            String?
+//   paymentContactLastName             String?
+//   paymentContactEmail                String?
+//   paymentContactCellNumber           String?
+//   allowAutomaticWinnerFormSubmission Boolean
+//   maxWinnerFormsOnSubmit             Int
+//   createdAt                          DateTime
+//   updatedAt                          DateTime
+//   companyLogo                        String?
+//   companyAddress                     String?                 @unique
+//   address                            Address?                @relation(name: "ClientAddress", fields: [companyAddress], references: [id])
+//   media                              Media?                  @relation(fields: [companyLogo], references: [id])
+//   advertisementCampaign              AdvertisementCampaign[]
+//   competitionEvent                   CompetitionEvent[]
+//   featuredTile                       FeaturedTile[]
+//   prizePool                          PrizePool[]
+//   slider                             Slider[]
+//   spinnerProduct                     SpinnerProduct[]
+//   WinnerForm                         WinnerForm[]
+
+//   @@index([companyAddress], name: "companyAddress")
+//   @@index([companyLogo], name: "companyLogo")
+// }
+
+// model Competition {
+//   id                                                    String             @id @default(cuid())
+//   status                                                String?
+//   type                                                  String
+//   name                                                  String             @unique
+//   slug                                                  String             @unique
+//   showOnHomePage                                        Boolean
+//   teamCount                                             Int?
+//   primaryColor                                          String?
+//   hasCustomPageContent                                  Boolean
+//   createdAt                                             DateTime
+//   updatedAt                                             DateTime
+//   pageBackground                                        String?
+//   tileBackground                                        String?
+//   gameSelectorLogo                                      String?
+//   pageContentDraft                                      String?
+//   sponsorList                                           String?
+//   gameLogo                                              String?
+//   blurbCategory                                         String?
+//   pageContent                                           String?
+//   banner                                                String?
+//   overviewBanner                                        String?
+//   Media_Competition_bannerToMedia                       Media?             @relation("Competition_bannerToMedia", fields: [banner], references: [id])
+//   BlurbCategory                                         BlurbCategory?     @relation(fields: [blurbCategory], references: [id])
+//   Media_Competition_gameLogoToMedia                     Media?             @relation("Competition_gameLogoToMedia", fields: [gameLogo], references: [id])
+//   Media_Competition_gameSelectorLogoToMedia             Media?             @relation("Competition_gameSelectorLogoToMedia", fields: [gameSelectorLogo], references: [id])
+//   Media_Competition_overviewBannerToMedia               Media?             @relation("Competition_overviewBannerToMedia", fields: [overviewBanner], references: [id])
+//   Media_Competition_pageBackgroundToMedia               Media?             @relation("Competition_pageBackgroundToMedia", fields: [pageBackground], references: [id])
+//   PageContent_Competition_pageContentToPageContent      PageContent?       @relation("Competition_pageContentToPageContent", fields: [pageContent], references: [id])
+//   PageContent_Competition_pageContentDraftToPageContent PageContent?       @relation("Competition_pageContentDraftToPageContent", fields: [pageContentDraft], references: [id])
+//   SponsorList                                           SponsorList?       @relation(fields: [sponsorList], references: [id])
+//   Media_Competition_tileBackgroundToMedia               Media?             @relation("Competition_tileBackgroundToMedia", fields: [tileBackground], references: [id])
+//   CompetitionEvent                                      CompetitionEvent[]
+//   CompetitionMatch                                      CompetitionMatch[]
+//   CompetitionStage                                      CompetitionStage[]
+//   CompetitionTeam                                       CompetitionTeam[]
+//   Role                                                  Role[]
+
+//   @@index([banner], name: "banner")
+//   @@index([blurbCategory], name: "blurbCategory")
+//   @@index([gameLogo], name: "gameLogo")
+//   @@index([gameSelectorLogo], name: "gameSelectorLogo")
+//   @@index([overviewBanner], name: "overviewBanner")
+//   @@index([pageBackground], name: "pageBackground")
+//   @@index([pageContent], name: "pageContent")
+//   @@index([pageContentDraft], name: "pageContentDraft")
+//   @@index([sponsorList], name: "sponsorList")
+//   @@index([tileBackground], name: "tileBackground")
+// }
+
+// model CompetitionEvent {
+//   id                                                     String                          @id @default(cuid())
+//   eventId                                                String                          @unique
+//   order                                                  Int
+//   status                                                 String
+//   type                                                   String
+//   name                                                   String?
+//   namePosition                                           String?
+//   registrationOpenDate                                   DateTime?
+//   registrationCloseDate                                  DateTime?
+//   startDate                                              DateTime?
+//   endDate                                                DateTime?
+//   maxEntriesPerOrganisation                              Int
+//   maxEntries                                             Int
+//   minEntries                                             Int
+//   rosterLock                                             Boolean
+//   showOnHomePage                                         Boolean
+//   vipPrizePool                                           Boolean
+//   replaceAllWithPageContent                              Boolean
+//   ageRestricted                                          Boolean?
+//   minAge                                                 Int?
+//   maxAge                                                 Int?
+//   requiresRegistration                                   Boolean
+//   requiresConfirmation                                   Boolean
+//   streamLink                                             String?
+//   streamName                                             String?
+//   streamIsLive                                           Boolean?
+//   advertisementDisplayType                               String?
+//   advertisementRotationTime                              Int?
+//   createdAt                                              DateTime
+//   updatedAt                                              DateTime
+//   competition                                            String?
+//   overviewBanner                                         String?
+//   pageContent                                            String?
+//   gameVariant                                            String?
+//   prizePool                                              String?
+//   liveryCategory                                         String?
+//   pageBackground                                         String?
+//   banner                                                 String?
+//   client                                                 String?
+//   game                                                   String?
+//   signupBanner                                           String?
+//   gameLogo                                               String?
+//   rulesContent                                           String?
+//   Media_CompetitionEvent_bannerToMedia                   Media?                          @relation("CompetitionEvent_bannerToMedia", fields: [banner], references: [id])
+//   Client                                                 Client?                         @relation(fields: [client], references: [id])
+//   Competition                                            Competition?                    @relation(fields: [competition], references: [id])
+//   Game                                                   Game?                           @relation(fields: [game], references: [id])
+//   Media_CompetitionEvent_gameLogoToMedia                 Media?                          @relation("CompetitionEvent_gameLogoToMedia", fields: [gameLogo], references: [id])
+//   GameVariant_CompetitionEventToGameVariant              GameVariant?                    @relation(fields: [gameVariant], references: [id])
+//   CarCategory                                            CarCategory?                    @relation(fields: [liveryCategory], references: [id])
+//   Media_CompetitionEvent_overviewBannerToMedia           Media?                          @relation("CompetitionEvent_overviewBannerToMedia", fields: [overviewBanner], references: [id])
+//   Media_CompetitionEvent_pageBackgroundToMedia           Media?                          @relation("CompetitionEvent_pageBackgroundToMedia", fields: [pageBackground], references: [id])
+//   PageContent_CompetitionEvent_pageContentToPageContent  PageContent?                    @relation("CompetitionEvent_pageContentToPageContent", fields: [pageContent], references: [id])
+//   PrizePool                                              PrizePool?                      @relation(fields: [prizePool], references: [id])
+//   PageContent_CompetitionEvent_rulesContentToPageContent PageContent?                    @relation("CompetitionEvent_rulesContentToPageContent", fields: [rulesContent], references: [id])
+//   Media_CompetitionEvent_signupBannerToMedia             Media?                          @relation("CompetitionEvent_signupBannerToMedia", fields: [signupBanner], references: [id])
+//   CarSelection                                           CarSelection[]
+//   CompetitionEventScheduleGroup                          CompetitionEventScheduleGroup[]
+//   CompetitionMatch                                       CompetitionMatch[]
+//   CompetitionStage                                       CompetitionStage[]
+//   CompetitionTeam                                        CompetitionTeam[]
+//   HomepageEvent                                          HomepageEvent[]
+//   AdvertisementCampaign                                  AdvertisementCampaign[]         @relation("AdvertisementCampaignEvents")
+//   Country                                                Country[]                       @relation("CompetitionEventCountries")
+//   Popup                                                  Popup[]
+//   GameVariant_CompetitionGameVariants                    GameVariant[]                   @relation("CompetitionGameVariants")
+//   Platform                                               Platform[]                      @relation("CompetitionPlatforms")
+
+//   @@index([banner], name: "banner")
+//   @@index([client], name: "client")
+//   @@index([competition], name: "competition")
+//   @@index([game], name: "game")
+//   @@index([gameLogo], name: "gameLogo")
+//   @@index([gameVariant], name: "gameVariant")
+//   @@index([liveryCategory], name: "liveryCategory")
+//   @@index([overviewBanner], name: "overviewBanner")
+//   @@index([pageBackground], name: "pageBackground")
+//   @@index([pageContent], name: "pageContent")
+//   @@index([prizePool], name: "prizePool")
+//   @@index([rulesContent], name: "rulesContent")
+//   @@index([signupBanner], name: "signupBanner")
+// }
+
+// model CompetitionEventSchedule {
+//   id                                        String                          @id @default(cuid())
+//   date                                      DateTime
+//   format                                    String
+//   round                                     String
+//   team1Score                                Int?
+//   team2Score                                Int?
+//   createdAt                                 DateTime
+//   updatedAt                                 DateTime
+//   team1                                     String?
+//   team2                                     String?
+//   Team_CompetitionEventSchedule_team1ToTeam Team?                           @relation("CompetitionEventSchedule_team1ToTeam", fields: [team1], references: [id])
+//   Team_CompetitionEventSchedule_team2ToTeam Team?                           @relation("CompetitionEventSchedule_team2ToTeam", fields: [team2], references: [id])
+//   CompetitionEventScheduleGroup             CompetitionEventScheduleGroup[] @relation("CompetitionEventScheduleToCompetitionEventScheduleGrou")
+
+//   @@index([team1], name: "team1")
+//   @@index([team2], name: "team2")
+// }
+
+// model CompetitionEventScheduleGroup {
+//   id                       String                     @id @default(cuid())
+//   title                    String
+//   createdAt                DateTime
+//   updatedAt                DateTime
+//   event                    String?
+//   CompetitionEvent         CompetitionEvent?          @relation(fields: [event], references: [id])
+//   CompetitionEventSchedule CompetitionEventSchedule[] @relation("CompetitionEventScheduleToCompetitionEventScheduleGrou")
+
+//   @@index([event], name: "event")
+// }
+
+// model CompetitionGroup {
+//   id                        String                      @id @default(cuid())
+//   number                    Int?
+//   createdAt                 DateTime
+//   updatedAt                 DateTime
+//   stage                     String?
+//   CompetitionStage          CompetitionStage?           @relation(fields: [stage], references: [id])
+//   CompetitionGroupStanding  CompetitionGroupStanding[]
+//   CompetitionMatch          CompetitionMatch[]
+//   CompetitionRacingStanding CompetitionRacingStanding[]
+//   CompetitionRound          CompetitionRound[]
+//   CompetitionRoyaleStanding CompetitionRoyaleStanding[]
+//   CompetitionTeam           CompetitionTeam[]           @relation("CompetitionGroupTeams")
+
+//   @@index([stage], name: "stage")
+// }
+
+// model CompetitionGroupStanding {
+//   id               String            @id @default(cuid())
+//   rank             Int
+//   played           Int
+//   won              Int
+//   drawn            Int
+//   lost             Int
+//   forfeited        Int
+//   scoreFor         Int
+//   scoreAgainst     Int
+//   difference       Int
+//   points           Int
+//   team             String?
+//   group            String?
+//   CompetitionGroup CompetitionGroup? @relation(fields: [group], references: [id])
+//   CompetitionTeam  CompetitionTeam?  @relation(fields: [team], references: [id])
+
+//   @@index([group], name: "group")
+//   @@index([team], name: "team")
+// }
+
+// model CompetitionMatch {
+//   id                                           String                 @id @default(cuid())
+//   number                                       Int
+//   type                                         String?
+//   status                                       String
+//   acceptedDate                                 DateTime?
+//   forfeitWarningAt                             DateTime?
+//   forfeitedAt                                  DateTime?
+//   createdAt                                    DateTime
+//   updatedAt                                    DateTime
+//   chat                                         String?
+//   round                                        String?
+//   event                                        String?
+//   stage                                        String?
+//   forfeitWarningBy                             String?
+//   forfeitedBy                                  String?
+//   competition                                  String?
+//   group                                        String?
+//   Chat                                         Chat?                  @relation(fields: [chat], references: [id])
+//   Competition                                  Competition?           @relation(fields: [competition], references: [id])
+//   CompetitionEvent                             CompetitionEvent?      @relation(fields: [event], references: [id])
+//   User_CompetitionMatch_forfeitWarningByToUser User?                  @relation("CompetitionMatch_forfeitWarningByToUser", fields: [forfeitWarningBy], references: [id])
+//   User_CompetitionMatch_forfeitedByToUser      User?                  @relation("CompetitionMatch_forfeitedByToUser", fields: [forfeitedBy], references: [id])
+//   CompetitionGroup                             CompetitionGroup?      @relation(fields: [group], references: [id])
+//   CompetitionRound                             CompetitionRound?      @relation(fields: [round], references: [id])
+//   CompetitionStage                             CompetitionStage?      @relation(fields: [stage], references: [id])
+//   BountyLog                                    BountyLog[]
+//   CompetitionMatchTeam                         CompetitionMatchTeam[]
+//   Dispute                                      Dispute[]
+//   Media                                        Media[]
+//   Schedule                                     Schedule[]
+
+//   @@index([chat], name: "chat")
+//   @@index([competition], name: "competition")
+//   @@index([event], name: "event")
+//   @@index([forfeitWarningBy], name: "forfeitWarningBy")
+//   @@index([forfeitedBy], name: "forfeitedBy")
+//   @@index([group], name: "group")
+//   @@index([round], name: "round")
+//   @@index([stage], name: "stage")
+// }
+
+// model CompetitionMatchTeam {
+//   id                                              String                  @id @default(cuid())
+//   hasPassword                                     Boolean
+//   matchId                                         String?
+//   matchPassword                                   String?
+//   number                                          Int
+//   result                                          String?
+//   score                                           Int?
+//   predictionCount                                 Int
+//   createdAt                                       DateTime
+//   updatedAt                                       DateTime
+//   racingScore                                     String?
+//   match                                           String?
+//   submittedByTeam                                 String?
+//   acceptedByUser                                  String?
+//   team                                            String?
+//   submittedByUser                                 String?
+//   royaleScore                                     String?
+//   acceptedByTeam                                  String?
+//   Team_CompetitionMatchTeam_acceptedByTeamToTeam  Team?                   @relation("CompetitionMatchTeam_acceptedByTeamToTeam", fields: [acceptedByTeam], references: [id])
+//   User_CompetitionMatchTeam_acceptedByUserToUser  User?                   @relation("CompetitionMatchTeam_acceptedByUserToUser", fields: [acceptedByUser], references: [id])
+//   CompetitionMatch                                CompetitionMatch?       @relation(fields: [match], references: [id])
+//   CompetitionRacingScore                          CompetitionRacingScore? @relation(fields: [racingScore], references: [id])
+//   CompetitionRoyaleScore                          CompetitionRoyaleScore? @relation(fields: [royaleScore], references: [id])
+//   Team_CompetitionMatchTeam_submittedByTeamToTeam Team?                   @relation("CompetitionMatchTeam_submittedByTeamToTeam", fields: [submittedByTeam], references: [id])
+//   User_CompetitionMatchTeam_submittedByUserToUser User?                   @relation("CompetitionMatchTeam_submittedByUserToUser", fields: [submittedByUser], references: [id])
+//   CompetitionTeam                                 CompetitionTeam?        @relation(fields: [team], references: [id])
+//   MatchTeamPrediction                             MatchTeamPrediction[]
+
+//   @@index([acceptedByTeam], name: "acceptedByTeam")
+//   @@index([acceptedByUser], name: "acceptedByUser")
+//   @@index([match], name: "match")
+//   @@index([racingScore], name: "racingScore")
+//   @@index([royaleScore], name: "royaleScore")
+//   @@index([submittedByTeam], name: "submittedByTeam")
+//   @@index([submittedByUser], name: "submittedByUser")
+//   @@index([team], name: "team")
+// }
+
+// model CompetitionRacingScore {
+//   id                                                                                             String                        @id @default(cuid())
+//   position                                                                                       Int?
+//   totalTime                                                                                      Int?
+//   laps                                                                                           Int?
+//   bestLap                                                                                        Int?
+//   createdAt                                                                                      DateTime
+//   updatedAt                                                                                      DateTime
+//   player2Score                                                                                   String?
+//   player1Score                                                                                   String?
+//   PlayerCompetitionRacingScore_CompetitionRacingScore_player1ScoreToPlayerCompetitionRacingScore PlayerCompetitionRacingScore? @relation("CompetitionRacingScore_player1ScoreToPlayerCompetitionRacingScore", fields: [player1Score], references: [id])
+//   PlayerCompetitionRacingScore_CompetitionRacingScore_player2ScoreToPlayerCompetitionRacingScore PlayerCompetitionRacingScore? @relation("CompetitionRacingScore_player2ScoreToPlayerCompetitionRacingScore", fields: [player2Score], references: [id])
+//   CompetitionMatchTeam                                                                           CompetitionMatchTeam[]
+
+//   @@index([player1Score], name: "player1Score")
+//   @@index([player2Score], name: "player2Score")
+// }
+
+// model CompetitionRacingStanding {
+//   id               String            @id @default(cuid())
+//   rank             Int
+//   week1            Int
+//   week2            Int
+//   week3            Int
+//   week4            Int
+//   week5            Int
+//   week6            Int
+//   total            Int
+//   team             String?
+//   group            String?
+//   CompetitionGroup CompetitionGroup? @relation(fields: [group], references: [id])
+//   CompetitionTeam  CompetitionTeam?  @relation(fields: [team], references: [id])
+
+//   @@index([group], name: "group")
+//   @@index([team], name: "team")
+// }
+
+// model CompetitionRound {
+//   id               String             @id @default(cuid())
+//   number           Int
+//   name             String?
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   group            String?
+//   CompetitionGroup CompetitionGroup?  @relation(fields: [group], references: [id])
+//   CompetitionMatch CompetitionMatch[]
+
+//   @@index([group], name: "group")
+// }
+
+// model CompetitionRoyaleScore {
+//   id                                                                                             String                        @id @default(cuid())
+//   position                                                                                       Int?
+//   kills                                                                                          Int?
+//   damage                                                                                         Int?
+//   createdAt                                                                                      DateTime
+//   updatedAt                                                                                      DateTime
+//   player3Score                                                                                   String?
+//   player2Score                                                                                   String?
+//   player1Score                                                                                   String?
+//   player5Score                                                                                   String?
+//   player4Score                                                                                   String?
+//   PlayerCompetitionRoyaleScore_CompetitionRoyaleScore_player1ScoreToPlayerCompetitionRoyaleScore PlayerCompetitionRoyaleScore? @relation("CompetitionRoyaleScore_player1ScoreToPlayerCompetitionRoyaleScore", fields: [player1Score], references: [id])
+//   PlayerCompetitionRoyaleScore_CompetitionRoyaleScore_player2ScoreToPlayerCompetitionRoyaleScore PlayerCompetitionRoyaleScore? @relation("CompetitionRoyaleScore_player2ScoreToPlayerCompetitionRoyaleScore", fields: [player2Score], references: [id])
+//   PlayerCompetitionRoyaleScore_CompetitionRoyaleScore_player3ScoreToPlayerCompetitionRoyaleScore PlayerCompetitionRoyaleScore? @relation("CompetitionRoyaleScore_player3ScoreToPlayerCompetitionRoyaleScore", fields: [player3Score], references: [id])
+//   PlayerCompetitionRoyaleScore_CompetitionRoyaleScore_player4ScoreToPlayerCompetitionRoyaleScore PlayerCompetitionRoyaleScore? @relation("CompetitionRoyaleScore_player4ScoreToPlayerCompetitionRoyaleScore", fields: [player4Score], references: [id])
+//   PlayerCompetitionRoyaleScore_CompetitionRoyaleScore_player5ScoreToPlayerCompetitionRoyaleScore PlayerCompetitionRoyaleScore? @relation("CompetitionRoyaleScore_player5ScoreToPlayerCompetitionRoyaleScore", fields: [player5Score], references: [id])
+//   CompetitionMatchTeam                                                                           CompetitionMatchTeam[]
+
+//   @@index([player1Score], name: "player1Score")
+//   @@index([player2Score], name: "player2Score")
+//   @@index([player3Score], name: "player3Score")
+//   @@index([player4Score], name: "player4Score")
+//   @@index([player5Score], name: "player5Score")
+// }
+
+// model CompetitionRoyaleStanding {
+//   id               String            @id @default(cuid())
+//   rank             Int
+//   week1            Int
+//   week2            Int
+//   week3            Int
+//   week4            Int
+//   total            Int
+//   team             String?
+//   group            String?
+//   CompetitionGroup CompetitionGroup? @relation(fields: [group], references: [id])
+//   CompetitionTeam  CompetitionTeam?  @relation(fields: [team], references: [id])
+
+//   @@index([group], name: "group")
+//   @@index([team], name: "team")
+// }
+
+// model CompetitionStage {
+//   id                                                                  String                  @id @default(cuid())
+//   order                                                               Int
+//   status                                                              String
+//   type                                                                String
+//   name                                                                String
+//   slug                                                                String
+//   groupLimit                                                          Int
+//   allowSubmissionVoting                                               Boolean
+//   showSubmissionVoting                                                Boolean
+//   matchLimit                                                          Int?
+//   roundLimit                                                          Int?
+//   matchPageOpen                                                       Int?
+//   matchPageClose                                                      Int?
+//   relegation                                                          Int?
+//   maxLosses                                                           Int?
+//   showConsolationRound                                                Boolean
+//   allowScheduling                                                     Boolean
+//   allowScoreUpload                                                    Boolean
+//   bountyTake                                                          Int?
+//   startDate                                                           DateTime?
+//   endDate                                                             DateTime?
+//   matchCodes                                                          String?
+//   createdAt                                                           DateTime
+//   updatedAt                                                           DateTime
+//   demoteTo                                                            String?
+//   competition                                                         String?
+//   event                                                               String?
+//   promoteTo                                                           String?
+//   matchBanner                                                         String?
+//   battleRoyaleScore                                                   String?
+//   BattleRoyaleScore                                                   BattleRoyaleScore?      @relation(fields: [battleRoyaleScore], references: [id])
+//   Competition                                                         Competition?            @relation(fields: [competition], references: [id])
+//   CompetitionStage_CompetitionStageToCompetitionStage_demoteTo        CompetitionStage?       @relation("CompetitionStageToCompetitionStage_demoteTo", fields: [demoteTo], references: [id])
+//   CompetitionEvent                                                    CompetitionEvent?       @relation(fields: [event], references: [id])
+//   Media                                                               Media?                  @relation(fields: [matchBanner], references: [id])
+//   CompetitionStage_CompetitionStageToCompetitionStage_promoteTo       CompetitionStage?       @relation("CompetitionStageToCompetitionStage_promoteTo", fields: [promoteTo], references: [id])
+//   BountyLog                                                           BountyLog[]
+//   CheckIn                                                             CheckIn[]
+//   CompetitionGroup                                                    CompetitionGroup[]
+//   CompetitionMatch                                                    CompetitionMatch[]
+//   other_CompetitionStage_CompetitionStageToCompetitionStage_demoteTo  CompetitionStage[]      @relation("CompetitionStageToCompetitionStage_demoteTo")
+//   other_CompetitionStage_CompetitionStageToCompetitionStage_promoteTo CompetitionStage[]      @relation("CompetitionStageToCompetitionStage_promoteTo")
+//   CompetitionSubmission                                               CompetitionSubmission[]
+//   WinnerForm                                                          WinnerForm[]
+//   CompetitionTeam                                                     CompetitionTeam[]       @relation("CompetitionStageTeams")
+
+//   @@index([battleRoyaleScore], name: "battleRoyaleScore")
+//   @@index([competition], name: "competition")
+//   @@index([demoteTo], name: "demoteTo")
+//   @@index([event], name: "event")
+//   @@index([matchBanner], name: "matchBanner")
+//   @@index([promoteTo], name: "promoteTo")
+// }
+
+// model CompetitionSubmission {
+//   id                               String            @id @default(cuid())
+//   email                            String?
+//   createdAt                        DateTime
+//   updatedAt                        DateTime
+//   stage                            String?
+//   user                             String?
+//   shortenedLink                    String?
+//   ShortenedLink                    ShortenedLink?    @relation(fields: [shortenedLink], references: [id])
+//   CompetitionStage                 CompetitionStage? @relation(fields: [stage], references: [id])
+//   User_CompetitionSubmissionToUser User?             @relation(fields: [user], references: [id])
+//   Media                            Media[]
+//   User_CompetitionSubmissionVotes  User[]            @relation("CompetitionSubmissionVotes")
+
+//   @@index([shortenedLink], name: "shortenedLink")
+//   @@index([stage], name: "stage")
+//   @@index([user], name: "user")
+// }
+
+// model CompetitionTeam {
+//   id                                   String                      @id @default(cuid())
+//   status                               String
+//   seed                                 Int
+//   forfeited                            Boolean
+//   parentEmail                          String?
+//   bounty                               Float?
+//   competed                             Boolean
+//   createdAt                            DateTime
+//   updatedAt                            DateTime
+//   user                                 String?
+//   team                                 String?
+//   event                                String?
+//   carSelection                         String?
+//   competition                          String?
+//   CarSelection                         CarSelection?               @relation(fields: [carSelection], references: [id])
+//   Competition                          Competition?                @relation(fields: [competition], references: [id])
+//   CompetitionEvent                     CompetitionEvent?           @relation(fields: [event], references: [id])
+//   Team                                 Team?                       @relation(fields: [team], references: [id])
+//   User_CompetitionTeamToUser           User?                       @relation(fields: [user], references: [id])
+//   BountyLog_BountyLogToCompetitionTeam BountyLog[]
+//   CheckIn                              CheckIn[]
+//   CompetitionGroupStanding             CompetitionGroupStanding[]
+//   CompetitionMatchTeam                 CompetitionMatchTeam[]
+//   CompetitionRacingStanding            CompetitionRacingStanding[]
+//   CompetitionRoyaleStanding            CompetitionRoyaleStanding[]
+//   AuditLog                             AuditLog[]
+//   CompetitionGroup                     CompetitionGroup[]          @relation("CompetitionGroupTeams")
+//   CompetitionStage                     CompetitionStage[]          @relation("CompetitionStageTeams")
+//   BountyLog_CompetitionTeamBountyLogs  BountyLog[]                 @relation("CompetitionTeamBountyLogs")
+//   User_CompetitionTeamRoster           User[]                      @relation("CompetitionTeamRoster")
+
+//   @@index([carSelection], name: "carSelection")
+//   @@index([competition], name: "competition")
+//   @@index([event], name: "event")
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model ContactForm {
+//   id        String   @id @default(cuid())
+//   status    String
+//   name      String
+//   email     String
+//   subject   String
+//   message   String
+//   createdAt DateTime
+//   updatedAt DateTime
+// }
+
+// model Country {
+//   id               String             @id @default(cuid())
+//   status           String
+//   name             String             @unique
+//   slug             String             @unique
+//   shortName        String             @unique
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   CompetitionEvent CompetitionEvent[] @relation("CompetitionEventCountries")
+// }
+
+// model DiscordUser {
+//   id            String    @id @default(cuid())
+//   discordId     String    @unique
+//   username      String?
+//   avatar        String?
+//   discriminator String?
+//   publicFlags   Int?
+//   flags         Int?
+//   locale        String?
+//   mfaEnabled    Boolean?
+//   email         String?
+//   verified      Boolean?
+//   authToken     String?
+//   refreshToken  String?
+//   expires       DateTime?
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   User          User[]
+// }
+
+// model Dispute {
+//   id               String             @id @default(cuid())
+//   subject          String?
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   createdByTeam    String?
+//   createdByUser    String?
+//   chat             String?
+//   Chat             Chat?              @relation(fields: [chat], references: [id])
+//   Team             Team?              @relation(fields: [createdByTeam], references: [id])
+//   User             User?              @relation(fields: [createdByUser], references: [id])
+//   CompetitionMatch CompetitionMatch[]
+
+//   @@index([chat], name: "chat")
+//   @@index([createdByTeam], name: "createdByTeam")
+//   @@index([createdByUser], name: "createdByUser")
+// }
+
+// model Draw {
+//   id        String      @id @default(cuid())
+//   name      String      @unique
+//   createdAt DateTime
+//   updatedAt DateTime
+//   DrawEntry DrawEntry[]
+// }
+
+// model DrawEntry {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime
+//   updatedAt DateTime
+//   user      String?
+//   draw      String?
+//   Draw      Draw?    @relation(fields: [draw], references: [id])
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([draw], name: "draw")
+//   @@index([user], name: "user")
+// }
+
+// model DrawWinner {
+//   id        String   @id @default(cuid())
+//   winAt     DateTime
+//   createdAt DateTime
+//   updatedAt DateTime
+//   user      String?
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([user], name: "user")
+// }
+
+// model Email {
+//   id        String   @id @default(cuid())
+//   subject   String
+//   preview   String
+//   content   String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   user      String?
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([user], name: "user")
+// }
+
+// model EmailTemplate {
+//   id        String   @id @default(cuid())
+//   name      String   @unique
+//   content   String
+//   html      String
+//   options   String?
+//   createdAt DateTime
+//   updatedAt DateTime
+// }
+
+// model Faq {
+//   id          String       @id @default(cuid())
+//   status      String
+//   order       Int
+//   title       String       @unique
+//   slug        String       @unique
+//   description String?
+//   content     String
+//   createdAt   DateTime
+//   updatedAt   DateTime
+//   category    String?
+//   FaqCategory FaqCategory? @relation(fields: [category], references: [id])
+
+//   @@index([category], name: "category")
+// }
+
+// model FaqCategory {
+//   id        String   @id @default(cuid())
+//   name      String   @unique
+//   slug      String   @unique
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Faq       Faq[]
+// }
+
+// model FeaturedTile {
+//   id              String      @id @default(cuid())
+//   status          String
+//   order           Int
+//   name            String      @unique
+//   link            String
+//   linkTarget      String
+//   linkType        String
+//   modalTitle      String?
+//   modalContent    String?
+//   modalCss        String?
+//   modalTheme      String?
+//   modalHeader     Boolean?
+//   content         String
+//   customCss       String?
+//   showOnDesktop   Boolean
+//   showOnMobile    Boolean
+//   createdAt       DateTime
+//   updatedAt       DateTime
+//   backgroundImage String?
+//   client          String?
+//   Media           Media?      @relation(fields: [backgroundImage], references: [id])
+//   Client          Client?     @relation(fields: [client], references: [id])
+//   Analytics       Analytics[]
+
+//   @@index([backgroundImage], name: "backgroundImage")
+//   @@index([client], name: "client")
+// }
+
+// model Game {
+//   id                         String                       @id @default(cuid())
+//   status                     String
+//   type                       String
+//   name                       String                       @unique
+//   shortName                  String                       @unique
+//   slug                       String                       @unique
+//   logoUrl                    String?
+//   iconUrl                    String?
+//   color                      String
+//   createdAt                  DateTime
+//   updatedAt                  DateTime
+//   banner                     String?
+//   icon                       String?
+//   winner                     String?
+//   logo                       String?
+//   sponsorList                String?
+//   overview                   String?
+//   Media_Game_bannerToMedia   Media?                       @relation("Game_bannerToMedia", fields: [banner], references: [id])
+//   Media_Game_iconToMedia     Media?                       @relation("Game_iconToMedia", fields: [icon], references: [id])
+//   Media_Game_logoToMedia     Media?                       @relation("Game_logoToMedia", fields: [logo], references: [id])
+//   Media_Game_overviewToMedia Media?                       @relation("Game_overviewToMedia", fields: [overview], references: [id])
+//   SponsorList                SponsorList?                 @relation(fields: [sponsorList], references: [id])
+//   Media_Game_winnerToMedia   Media?                       @relation("Game_winnerToMedia", fields: [winner], references: [id])
+//   CarCategory                CarCategory[]
+//   CompetitionEvent           CompetitionEvent[]
+//   GameTile                   GameTile[]
+//   GameVariant                GameVariant[]
+//   NotificationGamePreference NotificationGamePreference[]
+//   Statistic                  Statistic[]
+
+//   @@index([banner], name: "banner")
+//   @@index([icon], name: "icon")
+//   @@index([logo], name: "logo")
+//   @@index([overview], name: "overview")
+//   @@index([sponsorList], name: "sponsorList")
+//   @@index([winner], name: "winner")
+// }
+
+// model GameTile {
+//   id              String            @id @default(cuid())
+//   type            String
+//   winner          String
+//   createdAt       DateTime
+//   updatedAt       DateTime
+//   game            String?
+//   Game            Game?             @relation(fields: [game], references: [id])
+//   WebsiteSettings WebsiteSettings[]
+
+//   @@index([game], name: "game")
+// }
+
+// model GameVariant {
+//   id                                             String             @id @default(cuid())
+//   status                                         String
+//   teamSize                                       Int
+//   minTeamSize                                    Int
+//   reserves                                       Int
+//   hasCoach                                       Boolean?
+//   requiredGameId                                 String?
+//   createdAt                                      DateTime
+//   updatedAt                                      DateTime
+//   requiredSocialAccount                          String?
+//   platform                                       String?
+//   game                                           String?
+//   Game                                           Game?              @relation(fields: [game], references: [id])
+//   Platform                                       Platform?          @relation(fields: [platform], references: [id])
+//   SocialAccount                                  SocialAccount?     @relation(fields: [requiredSocialAccount], references: [id])
+//   CompetitionEvent_CompetitionEventToGameVariant CompetitionEvent[]
+//   Team                                           Team[]
+//   CompetitionEvent_CompetitionGameVariants       CompetitionEvent[] @relation("CompetitionGameVariants")
+
+//   @@index([game], name: "game")
+//   @@index([platform], name: "platform")
+//   @@index([requiredSocialAccount], name: "requiredSocialAccount")
+// }
+
+// model Giveaway {
+//   id                                   String           @id @default(cuid())
+//   type                                 String
+//   status                               String
+//   name                                 String
+//   slug                                 String           @unique
+//   gleamLink                            String?
+//   emailContent                         String?
+//   emailHtml                            String?
+//   emailSubject                         String?
+//   createdAt                            DateTime
+//   updatedAt                            DateTime
+//   banner                               String?
+//   terms                                String?
+//   pageBackground                       String?
+//   Media_Giveaway_bannerToMedia         Media?           @relation("Giveaway_bannerToMedia", fields: [banner], references: [id])
+//   Media_Giveaway_pageBackgroundToMedia Media?           @relation("Giveaway_pageBackgroundToMedia", fields: [pageBackground], references: [id])
+//   PageContent                          PageContent?     @relation(fields: [terms], references: [id])
+//   GiveawayPrize                        GiveawayPrize[]
+//   GiveawayWinner                       GiveawayWinner[]
+
+//   @@index([banner], name: "banner")
+//   @@index([pageBackground], name: "pageBackground")
+//   @@index([terms], name: "terms")
+// }
+
+// model GiveawayPrize {
+//   id                String           @id @default(cuid())
+//   type              String
+//   name              String
+//   numberOfWinners   Int
+//   description       String?
+//   voucherCode       String?
+//   leaderboardPoints String?
+//   createdAt         DateTime
+//   updatedAt         DateTime
+//   giveaway          String?
+//   Giveaway          Giveaway?        @relation(fields: [giveaway], references: [id])
+//   GiveawayWinner    GiveawayWinner[]
+
+//   @@index([giveaway], name: "giveaway")
+// }
+
+// model GiveawayWinner {
+//   id            String         @id @default(cuid())
+//   status        String
+//   email         String
+//   notified      DateTime?
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   prizeId       String?
+//   bankAccountId String?
+//   addressId     String?        @unique
+//   giveawayId    String?
+//   userId        String?
+//   address       Address?       @relation(fields: [addressId], references: [id])
+//   bankAccount   BankAccount?   @relation(fields: [bankAccountId], references: [id])
+//   giveaway      Giveaway?      @relation(fields: [giveawayId], references: [id])
+//   prize         GiveawayPrize? @relation(fields: [prizeId], references: [id])
+//   user          User?          @relation(fields: [userId], references: [id])
+// }
+
+// model HomepageEvent {
+//   id               String            @id @default(cuid())
+//   order            Int
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   websiteSettings  String?
+//   event            String?
+//   CompetitionEvent CompetitionEvent? @relation(fields: [event], references: [id])
+//   WebsiteSettings  WebsiteSettings?  @relation(fields: [websiteSettings], references: [id])
+
+//   @@index([event], name: "event")
+//   @@index([websiteSettings], name: "websiteSettings")
+// }
+
+// model JobLog {
+//   id        String   @id @default(cuid())
+//   status    String
+//   jobId     String
+//   error     String?
+//   createdAt DateTime
+//   updatedAt DateTime
+// }
+
+// model Lead {
+//   id        String   @id @default(cuid())
+//   status    String
+//   tag       String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   User      User[]
+// }
+
+// model Leaderboard {
+//   id                          String                        @id @default(cuid())
+//   status                      String
+//   name                        String                        @unique
+//   slug                        String                        @unique
+//   multiplier                  Float?
+//   vipMultiplier               Float?
+//   primaryColor                String?
+//   secondaryColor              String?
+//   terms                       String?
+//   createdAt                   DateTime
+//   updatedAt                   DateTime
+//   banner                      String?
+//   Media                       Media?                        @relation(fields: [banner], references: [id])
+//   LeaderboardUser             LeaderboardUser[]
+//   LeaderboardPointsAllocation LeaderboardPointsAllocation[]
+
+//   @@index([banner], name: "banner")
+// }
+
+// model LeaderboardPointsAllocation {
+//   id          String        @id @default(cuid())
+//   name        String        @unique
+//   description String?
+//   points      Int
+//   createdAt   DateTime
+//   updatedAt   DateTime
+//   Leaderboard Leaderboard[]
+// }
+
+// model LeaderboardUser {
+//   id                   String                 @id @default(cuid())
+//   totalPoints          Int?
+//   createdAt            DateTime
+//   updatedAt            DateTime
+//   leaderboard          String?
+//   user                 String?
+//   Leaderboard          Leaderboard?           @relation(fields: [leaderboard], references: [id])
+//   User                 User?                  @relation(fields: [user], references: [id])
+//   LeaderboardUserPoint LeaderboardUserPoint[]
+
+//   @@index([leaderboard], name: "leaderboard")
+//   @@index([user], name: "user")
+// }
+
+// model LeaderboardUserPoint {
+//   id              String           @id @default(cuid())
+//   action          String
+//   actionId        String?
+//   points          Int
+//   description     String?
+//   createdAt       DateTime
+//   updatedAt       DateTime
+//   user            String?
+//   LeaderboardUser LeaderboardUser? @relation(fields: [user], references: [id])
+
+//   @@index([user], name: "user")
+// }
+
+// model Livery {
+//   id          String       @id @default(cuid())
+//   logoUrl     String?
+//   number      Int
+//   createdAt   DateTime
+//   updatedAt   DateTime
+//   category    String?
+//   logo        String?
+//   make        String?
+//   CarCategory CarCategory? @relation(fields: [category], references: [id])
+//   Media       Media?       @relation(fields: [logo], references: [id])
+//   CarMake     CarMake?     @relation(fields: [make], references: [id])
+//   User        User[]       @relation("UserLiveries")
+
+//   @@index([category], name: "category")
+//   @@index([logo], name: "logo")
+//   @@index([make], name: "make")
+// }
+
+// model LogitechScore {
+//   id        String   @id @default(cuid())
+//   name      String   @unique
+//   email     String   @unique
+//   total     Int?
+//   createdAt DateTime
+//   updatedAt DateTime
+// }
+
+// model MatchTeamPrediction {
+//   id                   String                @id @default(cuid())
+//   createdAt            DateTime
+//   updatedAt            DateTime
+//   team                 String?
+//   user                 String?
+//   CompetitionMatchTeam CompetitionMatchTeam? @relation(fields: [team], references: [id])
+//   User                 User?                 @relation(fields: [user], references: [id])
+
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model Media {
+//   id                                                      String                  @id @default(cuid())
+//   order                                                   Int
+//   title                                                   String?
+//   relatedObjectId                                         String?
+//   relatedObject                                           String?
+//   relatedObjectField                                      String?
+//   url                                                     String
+//   thumbnailUrl                                            String?
+//   transferred                                             Boolean
+//   createdAt                                               DateTime
+//   updatedAt                                               DateTime
+//   category                                                String?
+//   MediaCategory                                           MediaCategory?          @relation(fields: [category], references: [id])
+//   Advertisement                                           Advertisement[]
+//   Badge_Badge_fallbackLogoToMedia                         Badge[]                 @relation("Badge_fallbackLogoToMedia")
+//   Badge_Badge_logoToMedia                                 Badge[]                 @relation("Badge_logoToMedia")
+//   Blurb                                                   Blurb[]
+//   BlurbAuthor                                             BlurbAuthor[]
+//   Client                                                  Client[]
+//   Competition_Competition_bannerToMedia                   Competition[]           @relation("Competition_bannerToMedia")
+//   Competition_Competition_gameLogoToMedia                 Competition[]           @relation("Competition_gameLogoToMedia")
+//   Competition_Competition_gameSelectorLogoToMedia         Competition[]           @relation("Competition_gameSelectorLogoToMedia")
+//   Competition_Competition_overviewBannerToMedia           Competition[]           @relation("Competition_overviewBannerToMedia")
+//   Competition_Competition_pageBackgroundToMedia           Competition[]           @relation("Competition_pageBackgroundToMedia")
+//   Competition_Competition_tileBackgroundToMedia           Competition[]           @relation("Competition_tileBackgroundToMedia")
+//   CompetitionEvent_CompetitionEvent_bannerToMedia         CompetitionEvent[]      @relation("CompetitionEvent_bannerToMedia")
+//   CompetitionEvent_CompetitionEvent_gameLogoToMedia       CompetitionEvent[]      @relation("CompetitionEvent_gameLogoToMedia")
+//   CompetitionEvent_CompetitionEvent_overviewBannerToMedia CompetitionEvent[]      @relation("CompetitionEvent_overviewBannerToMedia")
+//   CompetitionEvent_CompetitionEvent_pageBackgroundToMedia CompetitionEvent[]      @relation("CompetitionEvent_pageBackgroundToMedia")
+//   CompetitionEvent_CompetitionEvent_signupBannerToMedia   CompetitionEvent[]      @relation("CompetitionEvent_signupBannerToMedia")
+//   CompetitionStage                                        CompetitionStage[]
+//   FeaturedTile                                            FeaturedTile[]
+//   Game_Game_bannerToMedia                                 Game[]                  @relation("Game_bannerToMedia")
+//   Game_Game_iconToMedia                                   Game[]                  @relation("Game_iconToMedia")
+//   Game_Game_logoToMedia                                   Game[]                  @relation("Game_logoToMedia")
+//   Game_Game_overviewToMedia                               Game[]                  @relation("Game_overviewToMedia")
+//   Game_Game_winnerToMedia                                 Game[]                  @relation("Game_winnerToMedia")
+//   Giveaway_Giveaway_bannerToMedia                         Giveaway[]              @relation("Giveaway_bannerToMedia")
+//   Giveaway_Giveaway_pageBackgroundToMedia                 Giveaway[]              @relation("Giveaway_pageBackgroundToMedia")
+//   Leaderboard                                             Leaderboard[]
+//   Livery                                                  Livery[]
+//   Notification                                            Notification[]
+//   Organisation_MediaToOrganisation_banner                 Organisation[]          @relation("MediaToOrganisation_banner")
+//   Organisation_MediaToOrganisation_logo                   Organisation[]          @relation("MediaToOrganisation_logo")
+//   Platform                                                Platform[]
+//   Slider                                                  Slider[]
+//   SocialAccount                                           SocialAccount[]
+//   Spinner                                                 Spinner[]
+//   SpinnerProduct                                          SpinnerProduct[]
+//   Sponsor                                                 Sponsor[]
+//   Streamer_MediaToStreamer_cardBack                       Streamer[]              @relation("MediaToStreamer_cardBack")
+//   Streamer_MediaToStreamer_cardFront                      Streamer[]              @relation("MediaToStreamer_cardFront")
+//   Survey_MediaToSurvey_banner                             Survey[]                @relation("MediaToSurvey_banner")
+//   Survey_MediaToSurvey_popupBanner                        Survey[]                @relation("MediaToSurvey_popupBanner")
+//   Team_MediaToTeam_banner                                 Team[]                  @relation("MediaToTeam_banner")
+//   Team_MediaToTeam_logo                                   Team[]                  @relation("MediaToTeam_logo")
+//   User_MediaToUser_banner                                 User[]                  @relation("MediaToUser_banner")
+//   User_MediaToUser_logo                                   User[]                  @relation("MediaToUser_logo")
+//   Voting                                                  Voting[]
+//   WithdrawForm                                            WithdrawForm[]
+//   BugReport                                               BugReport[]
+//   CompetitionMatch                                        CompetitionMatch[]
+//   CompetitionSubmission                                   CompetitionSubmission[]
+
+//   @@index([category], name: "category")
+// }
+
+// model MediaCategory {
+//   id        String   @id @default(cuid())
+//   name      String   @unique
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Media     Media[]
+// }
+
+// model Message {
+//   id            String   @id @default(cuid())
+//   isAnonymous   Boolean
+//   anonymousName String?
+//   content       String
+//   status        String
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   chat          String?
+//   from          String?
+//   Chat          Chat?    @relation(fields: [chat], references: [id])
+//   User          User?    @relation(fields: [from], references: [id])
+
+//   @@index([chat], name: "chat")
+//   @@index([from], name: "from")
+// }
+
+// model Mission {
+//   id                 String        @id @default(cuid())
+//   status             String
+//   type               String
+//   order              Int
+//   slug               String        @unique
+//   task               String
+//   taskCount          Int
+//   triggerType        String
+//   triggerTypeFilter  String
+//   triggerTypeParam   String?
+//   triggerEvent       String
+//   triggerEventFilter String
+//   triggerEventParam  String?
+//   createdAt          DateTime
+//   updatedAt          DateTime
+//   parent             String?
+//   badge              String?
+//   Badge              Badge?        @relation(fields: [badge], references: [id])
+//   Mission            Mission?      @relation("MissionToMission_parent", fields: [parent], references: [id])
+//   other_Mission      Mission[]     @relation("MissionToMission_parent")
+//   UserMission        UserMission[]
+//   Mission_B          Mission[]     @relation("MissionUpgrades")
+//   Mission_A          Mission[]     @relation("MissionUpgrades")
+
+//   @@index([badge], name: "badge")
+//   @@index([parent], name: "parent")
+// }
+
+// model Notification {
+//   id        String   @id @default(cuid())
+//   read      Boolean
+//   logoUrl   String?
+//   title     String
+//   content   String
+//   url       String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   user      String?
+//   logo      String?
+//   Media     Media?   @relation(fields: [logo], references: [id])
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([logo], name: "logo")
+//   @@index([user], name: "user")
+// }
+
+// model NotificationGamePreference {
+//   id                     String                  @id @default(cuid())
+//   inApp                  Boolean
+//   whatsapp               Boolean
+//   email                  Boolean
+//   createdAt              DateTime
+//   updatedAt              DateTime
+//   game                   String?
+//   notificationPreference String?
+//   Game                   Game?                   @relation(fields: [game], references: [id])
+//   NotificationPreference NotificationPreference? @relation(fields: [notificationPreference], references: [id])
+
+//   @@index([game], name: "game")
+//   @@index([notificationPreference], name: "notificationPreference")
+// }
+
+// model NotificationPreference {
+//   id                         String                       @id @default(cuid())
+//   newGames                   Boolean
+//   newsletter                 Boolean
+//   createdAt                  DateTime
+//   updatedAt                  DateTime
+//   NotificationGamePreference NotificationGamePreference[]
+//   User                       User[]
+// }
+
+// model Organisation {
+//   id                                                                      String                      @id @default(cuid())
+//   status                                                                  String
+//   name                                                                    String
+//   tag                                                                     String?
+//   founded                                                                 String?
+//   biography                                                               String?
+//   facebookLink                                                            String?
+//   twitterLink                                                             String?
+//   instagramLink                                                           String?
+//   youtubeLink                                                             String?
+//   primaryColour                                                           String?
+//   logoUrl                                                                 String?
+//   acceptingJoinRequests                                                   Boolean?
+//   createdAt                                                               DateTime
+//   updatedAt                                                               DateTime
+//   logo                                                                    String?
+//   owner                                                                   String?
+//   banner                                                                  String?
+//   Media_MediaToOrganisation_banner                                        Media?                      @relation("MediaToOrganisation_banner", fields: [banner], references: [id])
+//   Media_MediaToOrganisation_logo                                          Media?                      @relation("MediaToOrganisation_logo", fields: [logo], references: [id])
+//   User_Organisation_ownerToUser                                           User?                       @relation("Organisation_ownerToUser", fields: [owner], references: [id])
+//   OrganisationInvite                                                      OrganisationInvite[]
+//   OrganisationJoinRequest                                                 OrganisationJoinRequest[]
+//   OrganisationSocialAccount                                               OrganisationSocialAccount[]
+//   Team                                                                    Team[]
+//   User_OrganisationToUser_organisation                                    User[]                      @relation("OrganisationToUser_organisation")
+//   UserInvite                                                              UserInvite[]
+//   Wallet                                                                  Wallet[]
+//   WalletTransaction_OrganisationToWalletTransaction_organisation          WalletTransaction[]         @relation("OrganisationToWalletTransaction_organisation")
+//   WalletTransaction_OrganisationToWalletTransaction_organisationRecipient WalletTransaction[]         @relation("OrganisationToWalletTransaction_organisationRecipient")
+//   Award                                                                   Award[]                     @relation("AwardOrganisations")
+//   Badge                                                                   Badge[]                     @relation("BadgeOrganisations")
+//   ActivityEvent                                                           ActivityEvent[]             @relation("OrganisationActivityEvents")
+
+//   @@index([banner], name: "banner")
+//   @@index([logo], name: "logo")
+//   @@index([owner], name: "owner")
+// }
+
+// model OrganisationInvite {
+//   id           String        @id @default(cuid())
+//   email        String
+//   token        String?
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   organisation String?
+//   user         String?
+//   Organisation Organisation? @relation(fields: [organisation], references: [id])
+//   User         User?         @relation(fields: [user], references: [id])
+
+//   @@index([organisation], name: "organisation")
+//   @@index([user], name: "user")
+// }
+
+// model OrganisationJoinRequest {
+//   id           String        @id @default(cuid())
+//   token        String?
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   organisation String?
+//   user         String?
+//   Organisation Organisation? @relation(fields: [organisation], references: [id])
+//   User         User?         @relation(fields: [user], references: [id])
+
+//   @@index([organisation], name: "organisation")
+//   @@index([user], name: "user")
+// }
+
+// model OrganisationSocialAccount {
+//   id            String         @id @default(cuid())
+//   accountId     String?
+//   accountName   String?
+//   accountUrl    String?
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   organisation  String?
+//   socialAccount String?
+//   Organisation  Organisation?  @relation(fields: [organisation], references: [id])
+//   SocialAccount SocialAccount? @relation(fields: [socialAccount], references: [id])
+
+//   @@index([organisation], name: "organisation")
+//   @@index([socialAccount], name: "socialAccount")
+// }
+
+// model PageContent {
+//   id                                                          String             @id @default(cuid())
+//   title                                                       String?
+//   body                                                        String
+//   customCss                                                   String?
+//   customJs                                                    String?
+//   createdAt                                                   DateTime
+//   updatedAt                                                   DateTime
+//   Competition_Competition_pageContentToPageContent            Competition[]      @relation("Competition_pageContentToPageContent")
+//   Competition_Competition_pageContentDraftToPageContent       Competition[]      @relation("Competition_pageContentDraftToPageContent")
+//   CompetitionEvent_CompetitionEvent_pageContentToPageContent  CompetitionEvent[] @relation("CompetitionEvent_pageContentToPageContent")
+//   CompetitionEvent_CompetitionEvent_rulesContentToPageContent CompetitionEvent[] @relation("CompetitionEvent_rulesContentToPageContent")
+//   Giveaway                                                    Giveaway[]
+//   Spinner_PageContentToSpinner_howItWorks                     Spinner[]          @relation("PageContentToSpinner_howItWorks")
+//   Spinner_PageContentToSpinner_terms                          Spinner[]          @relation("PageContentToSpinner_terms")
+// }
+
+// model PaymentMethod {
+//   id                         String                       @id @default(cuid())
+//   isDefault                  Boolean
+//   binCountry                 String?
+//   last4Digits                String?
+//   holder                     String?
+//   expiryMonth                String?
+//   expiryYear                 String?
+//   brand                      String?
+//   createdAt                  DateTime
+//   updatedAt                  DateTime
+//   user                       String?
+//   User                       User?                        @relation(fields: [user], references: [id])
+//   VipSubscriptionTransaction VipSubscriptionTransaction[]
+
+//   @@index([user], name: "user")
+// }
+
+// model Platform {
+//   id               String             @id @default(cuid())
+//   name             String             @unique
+//   shortName        String             @unique
+//   color            String?
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   icon             String?
+//   Media            Media?             @relation(fields: [icon], references: [id])
+//   GameVariant      GameVariant[]
+//   CompetitionEvent CompetitionEvent[] @relation("CompetitionPlatforms")
+
+//   @@index([icon], name: "icon")
+// }
+
+// model PlayerCompetitionRacingScore {
+//   id                                                                                       String                   @id @default(cuid())
+//   time                                                                                     Int?
+//   createdAt                                                                                DateTime
+//   updatedAt                                                                                DateTime
+//   user                                                                                     String?
+//   User                                                                                     User?                    @relation(fields: [user], references: [id])
+//   CompetitionRacingScore_CompetitionRacingScore_player1ScoreToPlayerCompetitionRacingScore CompetitionRacingScore[] @relation("CompetitionRacingScore_player1ScoreToPlayerCompetitionRacingScore")
+//   CompetitionRacingScore_CompetitionRacingScore_player2ScoreToPlayerCompetitionRacingScore CompetitionRacingScore[] @relation("CompetitionRacingScore_player2ScoreToPlayerCompetitionRacingScore")
+
+//   @@index([user], name: "user")
+// }
+
+// model PlayerCompetitionRoyaleScore {
+//   id                                                                                       String                   @id @default(cuid())
+//   position                                                                                 Int?
+//   kills                                                                                    Int?
+//   damage                                                                                   Int?
+//   createdAt                                                                                DateTime
+//   updatedAt                                                                                DateTime
+//   user                                                                                     String?
+//   User                                                                                     User?                    @relation(fields: [user], references: [id])
+//   CompetitionRoyaleScore_CompetitionRoyaleScore_player1ScoreToPlayerCompetitionRoyaleScore CompetitionRoyaleScore[] @relation("CompetitionRoyaleScore_player1ScoreToPlayerCompetitionRoyaleScore")
+//   CompetitionRoyaleScore_CompetitionRoyaleScore_player2ScoreToPlayerCompetitionRoyaleScore CompetitionRoyaleScore[] @relation("CompetitionRoyaleScore_player2ScoreToPlayerCompetitionRoyaleScore")
+//   CompetitionRoyaleScore_CompetitionRoyaleScore_player3ScoreToPlayerCompetitionRoyaleScore CompetitionRoyaleScore[] @relation("CompetitionRoyaleScore_player3ScoreToPlayerCompetitionRoyaleScore")
+//   CompetitionRoyaleScore_CompetitionRoyaleScore_player4ScoreToPlayerCompetitionRoyaleScore CompetitionRoyaleScore[] @relation("CompetitionRoyaleScore_player4ScoreToPlayerCompetitionRoyaleScore")
+//   CompetitionRoyaleScore_CompetitionRoyaleScore_player5ScoreToPlayerCompetitionRoyaleScore CompetitionRoyaleScore[] @relation("CompetitionRoyaleScore_player5ScoreToPlayerCompetitionRoyaleScore")
+
+//   @@index([user], name: "user")
+// }
+
+// model Popup {
+//   id               String             @id @default(cuid())
+//   status           String
+//   type             String
+//   name             String
+//   repeat           Int?
+//   repeatUnit       String?
+//   startDate        DateTime?
+//   endDate          DateTime?
+//   body             String?
+//   css              String?
+//   showTo           String?
+//   createdAt        DateTime
+//   updatedAt        DateTime
+//   CompetitionEvent CompetitionEvent[]
+//   PopupLog         PopupLog[]
+// }
+
+// model PopupLog {
+//   id            String   @id @default(cuid())
+//   dontShowAgain Boolean
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   user          String?
+//   User          User?    @relation(fields: [user], references: [id])
+//   Popup         Popup[]
+
+//   @@index([user], name: "user")
+// }
+
+// model Prize {
+//   id           String     @id @default(cuid())
+//   placement    Int?
+//   share        Int?
+//   otherShare   String?
+//   premiumShare String?
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   pool         String?
+//   team         String?
+//   PrizePool    PrizePool? @relation(fields: [pool], references: [id])
+//   Team         Team?      @relation(fields: [team], references: [id])
+
+//   @@index([pool], name: "pool")
+//   @@index([team], name: "team")
+// }
+
+// model PrizePool {
+//   id                       String             @id @default(cuid())
+//   total                    Int?
+//   otherTotal               String?
+//   currencySymbol           String?
+//   paymentClientSameAsEvent Boolean
+//   createdAt                DateTime
+//   updatedAt                DateTime
+//   client                   String?
+//   Client                   Client?            @relation(fields: [client], references: [id])
+//   CompetitionEvent         CompetitionEvent[]
+//   Prize                    Prize[]
+
+//   @@index([client], name: "client")
+// }
+
+// model Realm {
+//   id        String   @id @default(cuid())
+//   name      String   @unique
+//   slug      String
+//   url       String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Blurb     Blurb[]  @relation("BlurbRealms")
+//   Slider    Slider[] @relation("SliderRealms")
+// }
+
+// model Recipient {
+//   id        String    @id @default(cuid())
+//   status    String
+//   opened    Boolean?
+//   bounce    Boolean?
+//   createdAt DateTime
+//   updatedAt DateTime
+//   campaign  String?
+//   user      String?
+//   Campaign  Campaign? @relation(fields: [campaign], references: [id])
+//   User      User?     @relation(fields: [user], references: [id])
+
+//   @@index([campaign], name: "campaign")
+//   @@index([user], name: "user")
+// }
+
+// model Role {
+//   id          String        @id @default(cuid())
+//   name        String        @unique
+//   isDefault   Boolean
+//   User        User[]
+//   Competition Competition[]
+// }
+
+// model Rule {
+//   id        String    @id @default(cuid())
+//   index     Float
+//   content   String?
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Rule_B    Rule[]    @relation("RuleToRule")
+//   Rule_A    Rule[]    @relation("RuleToRule")
+//   RuleSet   RuleSet[]
+// }
+
+// model RuleSet {
+//   id        String   @id @default(cuid())
+//   name      String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Rule      Rule[]
+// }
+
+// model RulesTemplate {
+//   id        String   @id @default(cuid())
+//   name      String
+//   content   String
+//   createdAt DateTime
+//   updatedAt DateTime
+// }
+
+// model Schedule {
+//   id                                  String             @id @default(cuid())
+//   status                              String
+//   scheduledDate                       DateTime
+//   createdAt                           DateTime
+//   updatedAt                           DateTime
+//   declinedBy                          String?
+//   acceptedBy                          String?
+//   scheduledByUser                     String?
+//   scheduledByTeam                     String?
+//   User_Schedule_acceptedByToUser      User?              @relation("Schedule_acceptedByToUser", fields: [acceptedBy], references: [id])
+//   User_Schedule_declinedByToUser      User?              @relation("Schedule_declinedByToUser", fields: [declinedBy], references: [id])
+//   Team                                Team?              @relation(fields: [scheduledByTeam], references: [id])
+//   User_Schedule_scheduledByUserToUser User?              @relation("Schedule_scheduledByUserToUser", fields: [scheduledByUser], references: [id])
+//   CompetitionMatch                    CompetitionMatch[]
+
+//   @@index([acceptedBy], name: "acceptedBy")
+//   @@index([declinedBy], name: "declinedBy")
+//   @@index([scheduledByTeam], name: "scheduledByTeam")
+//   @@index([scheduledByUser], name: "scheduledByUser")
+// }
+
+// model ShortenedLink {
+//   id                    String                  @id @default(cuid())
+//   url                   String
+//   hash                  String                  @unique
+//   referral              String?
+//   clicks                Int?
+//   createdAt             DateTime
+//   updatedAt             DateTime
+//   CompetitionSubmission CompetitionSubmission[]
+// }
+
+// model SiteSetting {
+//   id        String   @id @default(cuid())
+//   key       String   @unique
+//   value     String
+//   createdAt DateTime
+//   updatedAt DateTime
+// }
+
+// model Slider {
+//   id             String           @id @default(cuid())
+//   status         String
+//   order          Int?
+//   name           String
+//   customCSS      String?
+//   customHTML     String?
+//   showOnDesktop  Boolean
+//   showOnMobile   Boolean
+//   createdAt      DateTime
+//   updatedAt      DateTime
+//   background     String?
+//   client         String?
+//   Media          Media?           @relation(fields: [background], references: [id])
+//   Client         Client?          @relation(fields: [client], references: [id])
+//   Slider_actions Slider_actions[]
+//   Analytics      Analytics[]
+//   Realm          Realm[]          @relation("SliderRealms")
+
+//   @@index([background], name: "background")
+//   @@index([client], name: "client")
+// }
+
+// model Slider_actions {
+//   nodeId   String
+//   position Int
+//   value    String
+//   Slider   Slider @relation(fields: [nodeId], references: [id])
+
+//   @@id([nodeId, position])
+//   @@index([value], name: "value")
+// }
+
+// model SocialAccount {
+//   id                        String                      @id @default(cuid())
+//   color                     String
+//   linkType                  String
+//   name                      String                      @unique
+//   accountType               String
+//   createdAt                 DateTime
+//   updatedAt                 DateTime
+//   icon                      String?
+//   Media                     Media?                      @relation(fields: [icon], references: [id])
+//   GameVariant               GameVariant[]
+//   OrganisationSocialAccount OrganisationSocialAccount[]
+//   TeamSocialAccount         TeamSocialAccount[]
+//   UserSocialAccount         UserSocialAccount[]
+
+//   @@index([icon], name: "icon")
+// }
+
+// model SocialShare {
+//   id          String       @id @default(cuid())
+//   platform    String
+//   moment      String
+//   momentId    String
+//   callbackUrl String
+//   createdAt   DateTime
+//   updatedAt   DateTime
+//   user        String?
+//   User        User?        @relation(fields: [user], references: [id])
+//   WinnerForm  WinnerForm[]
+
+//   @@index([user], name: "user")
+// }
+
+// model Spinner {
+//   id                                          String                  @id @default(cuid())
+//   status                                      String
+//   name                                        String                  @unique
+//   pricePerSpin                                Int
+//   createdAt                                   DateTime
+//   updatedAt                                   DateTime
+//   terms                                       String?
+//   logo                                        String?
+//   howItWorks                                  String?
+//   PageContent_PageContentToSpinner_howItWorks PageContent?            @relation("PageContentToSpinner_howItWorks", fields: [howItWorks], references: [id])
+//   Media                                       Media?                  @relation(fields: [logo], references: [id])
+//   PageContent_PageContentToSpinner_terms      PageContent?            @relation("PageContentToSpinner_terms", fields: [terms], references: [id])
+//   SpinnerWinner                               SpinnerWinner[]
+//   AdvertisementCampaign                       AdvertisementCampaign[] @relation("SpinnerAdvertismentCampaigns")
+//   SpinnerProduct                              SpinnerProduct[]        @relation("SpinnerProducts")
+
+//   @@index([howItWorks], name: "howItWorks")
+//   @@index([logo], name: "logo")
+//   @@index([terms], name: "terms")
+// }
+
+// model SpinnerProduct {
+//   id                    String                  @id @default(cuid())
+//   type                  String
+//   status                String
+//   name                  String
+//   description           String?
+//   dropRate              Float
+//   rarity                String
+//   stock                 Int
+//   retailValue           String
+//   createdAt             DateTime
+//   updatedAt             DateTime
+//   client                String?
+//   logo                  String?
+//   Client                Client?                 @relation(fields: [client], references: [id])
+//   Media                 Media?                  @relation(fields: [logo], references: [id])
+//   SpinnerProductDigital SpinnerProductDigital[]
+//   SpinnerWinner         SpinnerWinner[]
+//   AuditLog              AuditLog[]              @relation("SpinnerProductLogs")
+//   Spinner               Spinner[]               @relation("SpinnerProducts")
+
+//   @@index([client], name: "client")
+//   @@index([logo], name: "logo")
+// }
+
+// model SpinnerProductDigital {
+//   id             String          @id @default(cuid())
+//   code           String
+//   claimed        Boolean
+//   claimedAt      DateTime?
+//   createdAt      DateTime
+//   updatedAt      DateTime
+//   product        String?
+//   SpinnerProduct SpinnerProduct? @relation(fields: [product], references: [id])
+//   SpinnerWinner  SpinnerWinner[]
+
+//   @@index([product], name: "product")
+// }
+
+// model SpinnerTransaction {
+//   id            String          @id @default(cuid())
+//   type          String
+//   description   String?
+//   amount        Int
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   user          String?
+//   createdBy     String?
+//   User          User?           @relation(fields: [createdBy], references: [id])
+//   SpinnerUser   SpinnerUser?    @relation(fields: [user], references: [id])
+//   SpinnerWinner SpinnerWinner[]
+
+//   @@index([createdBy], name: "createdBy")
+//   @@index([user], name: "user")
+// }
+
+// model SpinnerUser {
+//   id                 String               @id @default(cuid())
+//   lastSpin           DateTime?
+//   availableSpins     Int
+//   createdAt          DateTime
+//   updatedAt          DateTime
+//   SpinnerTransaction SpinnerTransaction[]
+//   SpinnerWinner      SpinnerWinner[]
+//   User               User[]
+// }
+
+// model SpinnerWinner {
+//   id                    String                 @id @default(cuid())
+//   status                String
+//   type                  String
+//   size                  String?
+//   variant               String?
+//   trackingNumber        String?
+//   trackingLink          String?
+//   orderReference        String?
+//   claimed               Boolean
+//   claimedAt             DateTime?
+//   createdAt             DateTime
+//   updatedAt             DateTime
+//   spinnerId             String?
+//   digitalProduct        String?
+//   product               String?
+//   addressId             String?                @unique
+//   transaction           String?
+//   user                  String?
+//   address               Address?               @relation(fields: [addressId], references: [id])
+//   spinnerProductDigital SpinnerProductDigital? @relation(fields: [digitalProduct], references: [id])
+//   spinnerProduct        SpinnerProduct?        @relation(fields: [product], references: [id])
+//   spinner               Spinner?               @relation(fields: [spinnerId], references: [id])
+//   spinnerTransaction    SpinnerTransaction?    @relation(fields: [transaction], references: [id])
+//   spinnerUser           SpinnerUser?           @relation(fields: [user], references: [id])
+// }
+
+// model Sponsor {
+//   id          String        @id @default(cuid())
+//   order       Int
+//   name        String        @unique
+//   websiteUrl  String
+//   logoUrl     String?
+//   createdAt   DateTime
+//   updatedAt   DateTime
+//   logo        String?
+//   Media       Media?        @relation(fields: [logo], references: [id])
+//   SponsorList SponsorList[]
+
+//   @@index([logo], name: "logo")
+// }
+
+// model SponsorList {
+//   id           String         @id @default(cuid())
+//   name         String         @unique
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   Announcement Announcement[]
+//   Competition  Competition[]
+//   Game         Game[]
+//   Sponsor      Sponsor[]
+// }
+
+// model Statistic {
+//   id                  String   @id @default(cuid())
+//   name                String
+//   value               Int
+//   createdAt           DateTime
+//   updatedAt           DateTime
+//   game                String?
+//   Game                Game?    @relation(fields: [game], references: [id])
+//   User_StatisticUser  User[]   @relation("StatisticUser")
+//   User_UserStatistics User[]   @relation("UserStatistics")
+
+//   @@index([game], name: "game")
+// }
+
+// model Streamer {
+//   id                              String             @id @default(cuid())
+//   name                            String             @unique
+//   slug                            String             @unique
+//   platform                        String
+//   email                           String?
+//   description                     String?
+//   facebookLink                    String?
+//   twitterLink                     String?
+//   instagramLink                   String?
+//   youtubeLink                     String?
+//   twitchLink                      String?
+//   createdAt                       DateTime
+//   updatedAt                       DateTime
+//   cardBack                        String?
+//   cardFront                       String?
+//   user                            String?
+//   Media_MediaToStreamer_cardBack  Media?             @relation("MediaToStreamer_cardBack", fields: [cardBack], references: [id])
+//   Media_MediaToStreamer_cardFront Media?             @relation("MediaToStreamer_cardFront", fields: [cardFront], references: [id])
+//   User_StreamerToUser             User?              @relation(fields: [user], references: [id])
+//   StreamerTag                     StreamerTag[]      @relation("StreamerTags")
+//   StreamerSchedule                StreamerSchedule[]
+//   User_StreamerVoters             User[]             @relation("StreamerVoters")
+
+//   @@index([cardBack], name: "cardBack")
+//   @@index([cardFront], name: "cardFront")
+//   @@index([user], name: "user")
+// }
+
+// model StreamerApplication {
+//   id            String   @id @default(cuid())
+//   status        String
+//   declineReason String?
+//   email         String
+//   name          String
+//   channelLink   String
+//   over16        Boolean
+//   titles        String
+//   reason        String
+//   goals         String
+//   createdAt     DateTime
+//   updatedAt     DateTime
+// }
+
+// model StreamerSchedule {
+//   id        String     @id @default(cuid())
+//   game      String
+//   day       String
+//   startTime String
+//   endTime   String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Streamer  Streamer[]
+// }
+
+// model StreamerTag {
+//   id        String     @id @default(cuid())
+//   name      String     @unique
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Streamer  Streamer[] @relation("StreamerTags")
+// }
+
+// model Survey {
+//   id                              String              @id @default(cuid())
+//   status                          String
+//   name                            String              @unique
+//   slug                            String              @unique
+//   description                     String?
+//   endCondition                    String
+//   startAt                         DateTime?
+//   endAt                           DateTime?
+//   fulfillmentTarget               Int?
+//   createdAt                       DateTime
+//   updatedAt                       DateTime
+//   popupBanner                     String?
+//   banner                          String?
+//   Media_MediaToSurvey_banner      Media?              @relation("MediaToSurvey_banner", fields: [banner], references: [id])
+//   Media_MediaToSurvey_popupBanner Media?              @relation("MediaToSurvey_popupBanner", fields: [popupBanner], references: [id])
+//   SurveyFulfillment               SurveyFulfillment[]
+//   SurveyQuestion                  SurveyQuestion[]
+
+//   @@index([banner], name: "banner")
+//   @@index([popupBanner], name: "popupBanner")
+// }
+
+// model SurveyAnswer {
+//   id                String             @id @default(cuid())
+//   answer            String
+//   createdAt         DateTime
+//   updatedAt         DateTime
+//   fulfillment       String?
+//   question          String?
+//   SurveyFulfillment SurveyFulfillment? @relation(fields: [fulfillment], references: [id])
+//   SurveyQuestion    SurveyQuestion?    @relation(fields: [question], references: [id])
+
+//   @@index([fulfillment], name: "fulfillment")
+//   @@index([question], name: "question")
+// }
+
+// model SurveyFulfillment {
+//   id           String         @id @default(cuid())
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   survey       String?
+//   user         String?
+//   Survey       Survey?        @relation(fields: [survey], references: [id])
+//   User         User?          @relation(fields: [user], references: [id])
+//   SurveyAnswer SurveyAnswer[]
+
+//   @@index([survey], name: "survey")
+//   @@index([user], name: "user")
+// }
+
+// model SurveyQuestion {
+//   id           String         @id @default(cuid())
+//   type         String
+//   inputType    String?
+//   label        String
+//   answers      String
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   survey       String?
+//   Survey       Survey?        @relation(fields: [survey], references: [id])
+//   SurveyAnswer SurveyAnswer[]
+
+//   @@index([survey], name: "survey")
+// }
+
+// model Tag {
+//   id        String     @id @default(cuid())
+//   name      String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Campaign  Campaign[]
+// }
+
+// model Team {
+//   id                                                              String                     @id @default(cuid())
+//   status                                                          String
+//   type                                                            String?
+//   name                                                            String
+//   tag                                                             String?
+//   facebookLink                                                    String?
+//   twitterLink                                                     String?
+//   instagramLink                                                   String?
+//   youtubeLink                                                     String?
+//   primaryColour                                                   String?
+//   logoUrl                                                         String?
+//   useOrgLogo                                                      Boolean?
+//   seed                                                            Int?
+//   faceitId                                                        String?
+//   region                                                          String?
+//   intelDump                                                       String?
+//   createdAt                                                       DateTime
+//   updatedAt                                                       DateTime
+//   racingClass                                                     String?
+//   owner                                                           String?
+//   gameVariant                                                     String?
+//   organisation                                                    String?
+//   banner                                                          String?
+//   logo                                                            String?
+//   Media_MediaToTeam_banner                                        Media?                     @relation("MediaToTeam_banner", fields: [banner], references: [id])
+//   GameVariant                                                     GameVariant?               @relation(fields: [gameVariant], references: [id])
+//   Media_MediaToTeam_logo                                          Media?                     @relation("MediaToTeam_logo", fields: [logo], references: [id])
+//   Organisation                                                    Organisation?              @relation(fields: [organisation], references: [id])
+//   User_TeamToUser                                                 User?                      @relation(fields: [owner], references: [id])
+//   CarCategory                                                     CarCategory?               @relation(fields: [racingClass], references: [id])
+//   CompetitionEventSchedule_CompetitionEventSchedule_team1ToTeam   CompetitionEventSchedule[] @relation("CompetitionEventSchedule_team1ToTeam")
+//   CompetitionEventSchedule_CompetitionEventSchedule_team2ToTeam   CompetitionEventSchedule[] @relation("CompetitionEventSchedule_team2ToTeam")
+//   CompetitionMatchTeam_CompetitionMatchTeam_acceptedByTeamToTeam  CompetitionMatchTeam[]     @relation("CompetitionMatchTeam_acceptedByTeamToTeam")
+//   CompetitionMatchTeam_CompetitionMatchTeam_submittedByTeamToTeam CompetitionMatchTeam[]     @relation("CompetitionMatchTeam_submittedByTeamToTeam")
+//   CompetitionTeam                                                 CompetitionTeam[]
+//   Dispute                                                         Dispute[]
+//   Prize                                                           Prize[]
+//   Schedule                                                        Schedule[]
+//   TeamInvite                                                      TeamInvite[]
+//   TeamJoinRequest                                                 TeamJoinRequest[]
+//   TeamPlayer                                                      TeamPlayer[]
+//   TeamSocialAccount                                               TeamSocialAccount[]
+//   Team_altNames                                                   Team_altNames[]
+//   Wallet                                                          Wallet[]
+//   WalletTransaction_TeamToWalletTransaction_team                  WalletTransaction[]        @relation("TeamToWalletTransaction_team")
+//   WalletTransaction_TeamToWalletTransaction_teamRecipient         WalletTransaction[]        @relation("TeamToWalletTransaction_teamRecipient")
+//   WinnerForm                                                      WinnerForm[]
+//   AuditLog                                                        AuditLog[]
+//   Award                                                           Award[]                    @relation("AwardTeams")
+//   Badge                                                           Badge[]                    @relation("BadgeTeams")
+//   ActivityEvent                                                   ActivityEvent[]            @relation("TeamActivityEvents")
+//   User_UserTeams                                                  User[]                     @relation("UserTeams")
+
+//   @@index([banner], name: "banner")
+//   @@index([gameVariant], name: "gameVariant")
+//   @@index([logo], name: "logo")
+//   @@index([organisation], name: "organisation")
+//   @@index([owner], name: "owner")
+//   @@index([racingClass], name: "racingClass")
+// }
+
+// model TeamInvite {
+//   id        String   @id @default(cuid())
+//   email     String
+//   token     String?
+//   position  Int?
+//   role      String
+//   createdAt DateTime
+//   updatedAt DateTime
+//   team      String?
+//   user      String?
+//   Team      Team?    @relation(fields: [team], references: [id])
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model TeamJoinRequest {
+//   id        String   @id @default(cuid())
+//   token     String?
+//   createdAt DateTime
+//   updatedAt DateTime
+//   user      String?
+//   team      String?
+//   Team      Team?    @relation(fields: [team], references: [id])
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model TeamPlayer {
+//   id        String   @id @default(cuid())
+//   position  Int?
+//   role      String?
+//   createdAt DateTime
+//   updatedAt DateTime
+//   user      String?
+//   team      String?
+//   Team      Team?    @relation(fields: [team], references: [id])
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model TeamSocialAccount {
+//   id            String         @id @default(cuid())
+//   accountId     String?
+//   accountName   String?
+//   accountUrl    String?
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   socialAccount String?
+//   team          String?
+//   SocialAccount SocialAccount? @relation(fields: [socialAccount], references: [id])
+//   Team          Team?          @relation(fields: [team], references: [id])
+
+//   @@index([socialAccount], name: "socialAccount")
+//   @@index([team], name: "team")
+// }
+
+// model Team_altNames {
+//   nodeId   String
+//   position Int
+//   value    String
+//   Team     Team   @relation(fields: [nodeId], references: [id])
+
+//   @@id([nodeId, position])
+//   @@index([value], name: "value")
+// }
+
+// model Timeline {
+//   id            String          @id @default(cuid())
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   TimelinePoint TimelinePoint[]
+// }
+
+// model TimelinePoint {
+//   id         String     @id @default(cuid())
+//   date       DateTime
+//   label      String?
+//   shortLabel String?
+//   createdAt  DateTime
+//   updatedAt  DateTime
+//   Timeline   Timeline[]
+// }
+
+// model User {
+//   id                                                              String                         @id @default(cuid())
+//   status                                                          String
+//   authToken                                                       String?
+//   primaryColour                                                   String?
+//   logoUrl                                                         String?
+//   tempAvatar                                                      String?
+//   firstName                                                       String?
+//   lastName                                                        String?
+//   displayName                                                     String
+//   displayNameChangedAt                                            DateTime?
+//   cellNumber                                                      String?
+//   idNumber                                                        String?
+//   dateOfBirth                                                     DateTime?
+//   gender                                                          String?
+//   province                                                        String?
+//   country                                                         String?
+//   email                                                           String                         @unique
+//   emailConfirmed                                                  Boolean
+//   confirmEmailToken                                               String?                        @unique
+//   password                                                        String
+//   resetPasswordToken                                              String?                        @unique
+//   resetPasswordExpires                                            Float?
+//   facebookLink                                                    String?
+//   twitterLink                                                     String?
+//   instagramLink                                                   String?
+//   youtubeLink                                                     String?
+//   twitchLink                                                      String?
+//   facebookId                                                      String?                        @unique
+//   twitterId                                                       String?                        @unique
+//   instagramId                                                     String?                        @unique
+//   youtubeId                                                       String?                        @unique
+//   twitchId                                                        String?                        @unique
+//   googleId                                                        String?                        @unique
+//   paypalId                                                        String?                        @unique
+//   paypalName                                                      String?
+//   paypalEmail                                                     String?
+//   paypalCountry                                                   String?
+//   epicId                                                          String?
+//   steamId                                                         String?                        @unique
+//   playstationId                                                   String?
+//   battleTag                                                       String?
+//   battlenetId                                                     String?
+//   eaId                                                            String?
+//   xboxId                                                          String?
+//   originId                                                        String?
+//   switchId                                                        String?
+//   riotId                                                          String?
+//   uplayId                                                         String?
+//   freeFireId                                                      String?
+//   apexLegendsIgn                                                  String?
+//   followingCount                                                  Int
+//   followersCount                                                  Int
+//   biography                                                       String?
+//   lastLoggedInAt                                                  DateTime?
+//   studentId                                                       String?
+//   preferredPaymentType                                            String?
+//   randomField                                                     String?
+//   createdAt                                                       DateTime
+//   updatedAt                                                       DateTime
+//   notificationPreference                                          String?
+//   banner                                                          String?
+//   organisation                                                    String?
+//   referredBy                                                      String?
+//   logo                                                            String?
+//   discordUser                                                     String?
+//   avatar                                                          String?
+//   subscription                                                    String?
+//   addressId                                                       String?                        @unique
+//   lead                                                            String?
+//   spinnerUser                                                     String?
+//   role                                                            String?
+//   address                                                         Address?                       @relation(fields: [addressId], references: [id])
+//   UserAvatar                                                      UserAvatar?                    @relation(fields: [avatar], references: [id])
+//   Media_MediaToUser_banner                                        Media?                         @relation("MediaToUser_banner", fields: [banner], references: [id])
+//   DiscordUser                                                     DiscordUser?                   @relation(fields: [discordUser], references: [id])
+//   Lead                                                            Lead?                          @relation(fields: [lead], references: [id])
+//   Media_MediaToUser_logo                                          Media?                         @relation("MediaToUser_logo", fields: [logo], references: [id])
+//   NotificationPreference                                          NotificationPreference?        @relation(fields: [notificationPreference], references: [id])
+//   Organisation_OrganisationToUser_organisation                    Organisation?                  @relation("OrganisationToUser_organisation", fields: [organisation], references: [id])
+//   User                                                            User?                          @relation("UserToUser_referredBy", fields: [referredBy], references: [id])
+//   Role                                                            Role?                          @relation(fields: [role], references: [id])
+//   SpinnerUser                                                     SpinnerUser?                   @relation(fields: [spinnerUser], references: [id])
+//   VipSubscription                                                 VipSubscription?               @relation(fields: [subscription], references: [id])
+//   Analytics                                                       Analytics[]
+//   AnnouncementUser                                                AnnouncementUser[]
+//   Audience2                                                       Audience2[]
+//   AuditLog                                                        AuditLog[]
+//   BankAccount                                                     BankAccount[]
+//   CheckIn                                                         CheckIn[]
+//   CompetitionMatch_CompetitionMatch_forfeitWarningByToUser        CompetitionMatch[]             @relation("CompetitionMatch_forfeitWarningByToUser")
+//   CompetitionMatch_CompetitionMatch_forfeitedByToUser             CompetitionMatch[]             @relation("CompetitionMatch_forfeitedByToUser")
+//   CompetitionMatchTeam_CompetitionMatchTeam_acceptedByUserToUser  CompetitionMatchTeam[]         @relation("CompetitionMatchTeam_acceptedByUserToUser")
+//   CompetitionMatchTeam_CompetitionMatchTeam_submittedByUserToUser CompetitionMatchTeam[]         @relation("CompetitionMatchTeam_submittedByUserToUser")
+//   CompetitionSubmission_CompetitionSubmissionToUser               CompetitionSubmission[]
+//   CompetitionTeam_CompetitionTeamToUser                           CompetitionTeam[]
+//   Dispute                                                         Dispute[]
+//   DrawEntry                                                       DrawEntry[]
+//   DrawWinner                                                      DrawWinner[]
+//   Email                                                           Email[]
+//   GiveawayWinner                                                  GiveawayWinner[]
+//   LeaderboardUser                                                 LeaderboardUser[]
+//   MatchTeamPrediction                                             MatchTeamPrediction[]
+//   Message                                                         Message[]
+//   Notification                                                    Notification[]
+//   Organisation_Organisation_ownerToUser                           Organisation[]                 @relation("Organisation_ownerToUser")
+//   OrganisationInvite                                              OrganisationInvite[]
+//   OrganisationJoinRequest                                         OrganisationJoinRequest[]
+//   PaymentMethod                                                   PaymentMethod[]
+//   PlayerCompetitionRacingScore                                    PlayerCompetitionRacingScore[]
+//   PlayerCompetitionRoyaleScore                                    PlayerCompetitionRoyaleScore[]
+//   PopupLog                                                        PopupLog[]
+//   Recipient                                                       Recipient[]
+//   Schedule_Schedule_acceptedByToUser                              Schedule[]                     @relation("Schedule_acceptedByToUser")
+//   Schedule_Schedule_declinedByToUser                              Schedule[]                     @relation("Schedule_declinedByToUser")
+//   Schedule_Schedule_scheduledByUserToUser                         Schedule[]                     @relation("Schedule_scheduledByUserToUser")
+//   SocialShare                                                     SocialShare[]
+//   SpinnerTransaction                                              SpinnerTransaction[]
+//   Streamer_StreamerToUser                                         Streamer[]
+//   SurveyFulfillment                                               SurveyFulfillment[]
+//   Team_TeamToUser                                                 Team[]
+//   TeamInvite                                                      TeamInvite[]
+//   TeamJoinRequest                                                 TeamJoinRequest[]
+//   TeamPlayer                                                      TeamPlayer[]
+//   other_User                                                      User[]                         @relation("UserToUser_referredBy")
+//   UserInvite                                                      UserInvite[]
+//   UserMission                                                     UserMission[]
+//   UserSocialAccount                                               UserSocialAccount[]
+//   User_pageAccess                                                 User_pageAccess[]
+//   Vote                                                            Vote[]
+//   Wallet                                                          Wallet[]
+//   WalletTransaction_UserToWalletTransaction_createdBy             WalletTransaction[]            @relation("UserToWalletTransaction_createdBy")
+//   WalletTransaction_UserToWalletTransaction_user                  WalletTransaction[]            @relation("UserToWalletTransaction_user")
+//   WalletTransaction_UserToWalletTransaction_userRecipient         WalletTransaction[]            @relation("UserToWalletTransaction_userRecipient")
+//   WhatsApp                                                        WhatsApp[]
+//   WinnerForm_UserToWinnerForm                                     WinnerForm[]
+//   WithdrawForm                                                    WithdrawForm[]
+//   Audience                                                        Audience[]
+//   Award                                                           Award[]                        @relation("AwardUsers")
+//   Badge                                                           Badge[]                        @relation("BadgeUsers")
+//   Chat                                                            Chat[]                         @relation("ChatUsers")
+//   CompetitionSubmission_CompetitionSubmissionVotes                CompetitionSubmission[]        @relation("CompetitionSubmissionVotes")
+//   CompetitionTeam_CompetitionTeamRoster                           CompetitionTeam[]              @relation("CompetitionTeamRoster")
+//   User_B_FollowerUsers                                            User[]                         @relation("FollowerUsers")
+//   User_A_FollowerUsers                                            User[]                         @relation("FollowerUsers")
+//   User_B_FollowingUsers                                           User[]                         @relation("FollowingUsers")
+//   User_A_FollowingUsers                                           User[]                         @relation("FollowingUsers")
+//   Statistic_StatisticUser                                         Statistic[]                    @relation("StatisticUser")
+//   Streamer_StreamerVoters                                         Streamer[]                     @relation("StreamerVoters")
+//   ActivityEvent                                                   ActivityEvent[]                @relation("UserActivityEvents")
+//   Livery                                                          Livery[]                       @relation("UserLiveries")
+//   Statistic_UserStatistics                                        Statistic[]                    @relation("UserStatistics")
+//   Team_UserTeams                                                  Team[]                         @relation("UserTeams")
+//   WinnerForm_WinnerFormRoster                                     WinnerForm[]                   @relation("WinnerFormRoster")
+
+//   @@index([avatar], name: "avatar")
+//   @@index([banner], name: "banner")
+//   @@index([discordUser], name: "discordUser")
+//   @@index([lead], name: "lead")
+//   @@index([logo], name: "logo")
+//   @@index([notificationPreference], name: "notificationPreference")
+//   @@index([organisation], name: "organisation")
+//   @@index([referredBy], name: "referredBy")
+//   @@index([role], name: "role")
+//   @@index([spinnerUser], name: "spinnerUser")
+//   @@index([subscription], name: "subscription")
+// }
+
+// model UserAvatar {
+//   id             String   @id @default(cuid())
+//   skinColor      String?
+//   hairStyle      String?
+//   hairColor      String?
+//   fabricColor    String?
+//   eyes           String?
+//   eyebrows       String?
+//   mouth          String?
+//   facialHair     String?
+//   clothe         String?
+//   glasses        String?
+//   glassesOpacity Float?
+//   accesories     String?
+//   createdAt      DateTime
+//   updatedAt      DateTime
+//   User           User[]
+// }
+
+// model UserInvite {
+//   id           String        @id @default(cuid())
+//   email        String
+//   token        String        @unique
+//   createdAt    DateTime
+//   updatedAt    DateTime
+//   organisation String?
+//   user         String?
+//   Organisation Organisation? @relation(fields: [organisation], references: [id])
+//   User         User?         @relation(fields: [user], references: [id])
+
+//   @@index([organisation], name: "organisation")
+//   @@index([user], name: "user")
+// }
+
+// model UserMission {
+//   id             String     @id @default(cuid())
+//   taskCount      Int
+//   taskCompletion Int
+//   isCompleted    Boolean
+//   createdAt      DateTime
+//   updatedAt      DateTime
+//   user           String?
+//   mission        String?
+//   Mission        Mission?   @relation(fields: [mission], references: [id])
+//   User           User?      @relation(fields: [user], references: [id])
+//   AuditLog       AuditLog[] @relation("UserMissonLogs")
+
+//   @@index([mission], name: "mission")
+//   @@index([user], name: "user")
+// }
+
+// model UserSocialAccount {
+//   id            String         @id @default(cuid())
+//   accountId     String?
+//   accountName   String?
+//   accountUrl    String?
+//   createdAt     DateTime
+//   updatedAt     DateTime
+//   socialAccount String?
+//   user          String?
+//   SocialAccount SocialAccount? @relation(fields: [socialAccount], references: [id])
+//   User          User?          @relation(fields: [user], references: [id])
+
+//   @@index([socialAccount], name: "socialAccount")
+//   @@index([user], name: "user")
+// }
+
+// model User_pageAccess {
+//   nodeId   String
+//   position Int
+//   value    String
+//   User     User   @relation(fields: [nodeId], references: [id])
+
+//   @@id([nodeId, position])
+//   @@index([value], name: "value")
+// }
+
+// model VipSubscription {
+//   id                         String                       @id @default(cuid())
+//   status                     String
+//   description                String?
+//   amount                     String
+//   amountValidTill            DateTime?
+//   subscriptionValidTill      DateTime?
+//   lastPaid                   DateTime?
+//   subscriptionPaymentId      String?
+//   failedPaymentAttempts      Int?
+//   createdAt                  DateTime
+//   updatedAt                  DateTime
+//   plan                       String?
+//   VipSubscriptionPlan        VipSubscriptionPlan?         @relation(fields: [plan], references: [id])
+//   User                       User[]
+//   VipSubscriptionTransaction VipSubscriptionTransaction[]
+
+//   @@index([plan], name: "plan")
+// }
+
+// model VipSubscriptionPlan {
+//   id              String            @id @default(cuid())
+//   status          String
+//   name            String            @unique
+//   caption         String
+//   amount          String
+//   recurranceText  String
+//   recurrance      Int
+//   createdAt       DateTime
+//   updatedAt       DateTime
+//   planId          String            @unique
+//   VipSubscription VipSubscription[]
+// }
+
+// model VipSubscriptionTransaction {
+//   id                String           @id @default(cuid())
+//   transactionId     String?
+//   registrationId    String?
+//   transactionNdc    String?
+//   transactionStatus String?
+//   paymentType       String?
+//   paymentBrand      String?
+//   amount            String
+//   currency          String?
+//   descriptor        String?
+//   recurringType     String?
+//   resultCode        String?
+//   resultDesc        String?
+//   riskScore         String?
+//   createdAt         DateTime
+//   updatedAt         DateTime
+//   paymentMethod     String?
+//   subscription      String?
+//   PaymentMethod     PaymentMethod?   @relation(fields: [paymentMethod], references: [id])
+//   VipSubscription   VipSubscription? @relation(fields: [subscription], references: [id])
+
+//   @@index([paymentMethod], name: "paymentMethod")
+//   @@index([subscription], name: "subscription")
+// }
+
+// model Vote {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime
+//   updatedAt DateTime
+//   voting    String?
+//   user      String?
+//   User      User?    @relation(fields: [user], references: [id])
+//   Voting    Voting?  @relation(fields: [voting], references: [id])
+
+//   @@index([user], name: "user")
+//   @@index([voting], name: "voting")
+// }
+
+// model Voting {
+//   id             String          @id @default(cuid())
+//   caption        String?
+//   uploadedBy     String?
+//   createdAt      DateTime
+//   updatedAt      DateTime
+//   category       String?
+//   media          String?
+//   VotingCategory VotingCategory? @relation(fields: [category], references: [id])
+//   Media          Media?          @relation(fields: [media], references: [id])
+//   Vote           Vote[]
+
+//   @@index([category], name: "category")
+//   @@index([media], name: "media")
+// }
+
+// model VotingCategory {
+//   id        String   @id @default(cuid())
+//   name      String
+//   startAt   DateTime
+//   endAt     DateTime
+//   createdAt DateTime
+//   updatedAt DateTime
+//   Voting    Voting[]
+// }
+
+// model Wallet {
+//   id                String              @id @default(cuid())
+//   type              String
+//   name              String
+//   total             String
+//   currency          String
+//   createdAt         DateTime
+//   updatedAt         DateTime
+//   organisation      String?
+//   user              String?
+//   team              String?
+//   Organisation      Organisation?       @relation(fields: [organisation], references: [id])
+//   Team              Team?               @relation(fields: [team], references: [id])
+//   User              User?               @relation(fields: [user], references: [id])
+//   WalletTransaction WalletTransaction[]
+//   WithdrawForm      WithdrawForm[]
+
+//   @@index([organisation], name: "organisation")
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model WalletTransaction {
+//   id                                                                 String        @id @default(cuid())
+//   type                                                               String
+//   amount                                                             String
+//   currency                                                           String
+//   description                                                        String?
+//   createdAt                                                          DateTime
+//   updatedAt                                                          DateTime
+//   teamRecipient                                                      String?
+//   user                                                               String?
+//   team                                                               String?
+//   wallet                                                             String?
+//   organisation                                                       String?
+//   userRecipient                                                      String?
+//   organisationRecipient                                              String?
+//   createdBy                                                          String?
+//   User_UserToWalletTransaction_createdBy                             User?         @relation("UserToWalletTransaction_createdBy", fields: [createdBy], references: [id])
+//   Organisation_OrganisationToWalletTransaction_organisation          Organisation? @relation("OrganisationToWalletTransaction_organisation", fields: [organisation], references: [id])
+//   Organisation_OrganisationToWalletTransaction_organisationRecipient Organisation? @relation("OrganisationToWalletTransaction_organisationRecipient", fields: [organisationRecipient], references: [id])
+//   Team_TeamToWalletTransaction_team                                  Team?         @relation("TeamToWalletTransaction_team", fields: [team], references: [id])
+//   Team_TeamToWalletTransaction_teamRecipient                         Team?         @relation("TeamToWalletTransaction_teamRecipient", fields: [teamRecipient], references: [id])
+//   User_UserToWalletTransaction_user                                  User?         @relation("UserToWalletTransaction_user", fields: [user], references: [id])
+//   User_UserToWalletTransaction_userRecipient                         User?         @relation("UserToWalletTransaction_userRecipient", fields: [userRecipient], references: [id])
+//   Wallet                                                             Wallet?       @relation(fields: [wallet], references: [id])
+
+//   @@index([createdBy], name: "createdBy")
+//   @@index([organisation], name: "organisation")
+//   @@index([organisationRecipient], name: "organisationRecipient")
+//   @@index([team], name: "team")
+//   @@index([teamRecipient], name: "teamRecipient")
+//   @@index([user], name: "user")
+//   @@index([userRecipient], name: "userRecipient")
+//   @@index([wallet], name: "wallet")
+// }
+
+// model WebsiteSettings {
+//   id                    String                  @id @default(cuid())
+//   name                  String                  @unique
+//   defaultEventsOrder    String
+//   defaultEventsLimit    Int
+//   createdAt             DateTime
+//   updatedAt             DateTime
+//   gameTile              String?
+//   GameTile              GameTile?               @relation(fields: [gameTile], references: [id])
+//   HomepageEvent         HomepageEvent[]
+//   AdvertisementCampaign AdvertisementCampaign[]
+
+//   @@index([gameTile], name: "gameTile")
+// }
+
+// model WhatsApp {
+//   id        String   @id @default(cuid())
+//   status    String
+//   content   String
+//   errorCode Int?
+//   error     String?
+//   createdAt DateTime
+//   updatedAt DateTime
+//   user      String?
+//   User      User?    @relation(fields: [user], references: [id])
+
+//   @@index([user], name: "user")
+// }
+
+// model WinnerForm {
+//   id                         String            @id @default(cuid())
+//   status                     String
+//   declineReason              String?
+//   paymentType                String
+//   number                     Int?
+//   placement                  Int?
+//   prize                      Int?
+//   otherPrize                 String?
+//   winAt                      DateTime?
+//   requiresBankAccount        Boolean
+//   requiresAddress            Boolean
+//   requiresRosterConfirmation Boolean
+//   additionalOptions          String?
+//   submittedAt                DateTime?
+//   createdAt                  DateTime
+//   updatedAt                  DateTime
+//   batchPayment               String?
+//   addressId                  String?           @unique
+//   bankAccount                String?
+//   client                     String?
+//   user                       String?
+//   team                       String?
+//   eventStage                 String?
+//   address                    Address?          @relation(fields: [addressId], references: [id])
+//   BankAccount                BankAccount?      @relation(fields: [bankAccount], references: [id])
+//   BatchPayment               BatchPayment?     @relation(fields: [batchPayment], references: [id])
+//   Client                     Client?           @relation(fields: [client], references: [id])
+//   CompetitionStage           CompetitionStage? @relation(fields: [eventStage], references: [id])
+//   Team                       Team?             @relation(fields: [team], references: [id])
+//   User_UserToWinnerForm      User?             @relation(fields: [user], references: [id])
+//   AuditLog                   AuditLog[]
+//   SocialShare                SocialShare[]
+//   User_WinnerFormRoster      User[]            @relation("WinnerFormRoster")
+
+//   @@index([bankAccount], name: "bankAccount")
+//   @@index([batchPayment], name: "batchPayment")
+//   @@index([client], name: "client")
+//   @@index([eventStage], name: "eventStage")
+//   @@index([team], name: "team")
+//   @@index([user], name: "user")
+// }
+
+// model WithdrawForm {
+//   id             String        @id @default(cuid())
+//   status         String
+//   declineReason  String?
+//   paymentType    String
+//   number         Int?
+//   amount         String
+//   hasProofOfBank Boolean?
+//   bank           String?
+//   accountHolder  String?
+//   accountNumber  String?
+//   branch         String?
+//   branchNumber   String?
+//   swiftCode      String?
+//   paypalEmail    String?
+//   createdAt      DateTime
+//   updatedAt      DateTime
+//   batchPayment   String?
+//   wallet         String?
+//   proofOfBank    String?
+//   user           String?
+//   BatchPayment   BatchPayment? @relation(fields: [batchPayment], references: [id])
+//   Media          Media?        @relation(fields: [proofOfBank], references: [id])
+//   User           User?         @relation(fields: [user], references: [id])
+//   Wallet         Wallet?       @relation(fields: [wallet], references: [id])
+//   AuditLog       AuditLog[]
+
+//   @@index([batchPayment], name: "batchPayment")
+//   @@index([proofOfBank], name: "proofOfBank")
+//   @@index([user], name: "user")
+//   @@index([wallet], name: "wallet")
+// }

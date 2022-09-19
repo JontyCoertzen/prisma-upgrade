@@ -1,0 +1,28 @@
+type WinnerForm {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  declineReason: String
+  paymentType: String! @default(value: "bank-account")
+  number: Int
+  bankAccount: BankAccount
+  address: Address
+  eventStage: CompetitionStage
+  team: Team @relation(name: "TeamWinnerForm")
+  user: User @relation(name: "UserWinnerForm")
+  roster: [User] @relation(name: "WinnerFormRoster")
+  placement: Int
+  prize: Int
+  otherPrize: String
+  shares: [SocialShare]
+  winAt: DateTime
+  requiresBankAccount: Boolean! @default(value: true)
+  requiresAddress: Boolean! @default(value: false)
+  requiresRosterConfirmation: Boolean! @default(value: true)
+  additionalOptions: String
+  client: Client @relation(name: "WinnerFormClient")
+  submittedAt: DateTime
+  batchPayment: BatchPayment @relation(name: "WinnerFormBatchPayment")
+  logs: [AuditLog]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

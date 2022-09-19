@@ -1,0 +1,10 @@
+type TeamSocialAccount {
+  id: ID! @id
+  team: Team @relation(name: "TeamSocialAccounts")
+  socialAccount: SocialAccount @relation(name: "SocialAccountTeamSocialAccount")
+  accountId: String
+  accountName: String
+  accountUrl: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

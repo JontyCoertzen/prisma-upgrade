@@ -1,0 +1,127 @@
+secret: ${env:PRISMA_MANAGEMENT_API_SECRET}
+
+datamodel:
+  - models/activityEvent.graphql
+  - models/address.graphql
+  - models/advertisement.graphql
+  - models/advertisementCampaign.graphql
+  - models/analytics.graphql
+  - models/announcement.graphql
+  - models/announcementUser.graphql
+  - models/audience.graphql
+  - models/auditLog.graphql
+  - models/award.graphql
+  - models/badge.graphql
+  - models/bankAccount.graphql
+  - models/batchPayment.graphql
+  - models/battleRoyaleScore.graphql
+  - models/blurb.graphql
+  - models/blurbAuthor.graphql
+  - models/blurbCategory.graphql
+  - models/blurbTag.graphql
+  - models/bountyLog.graphql
+  - models/breaking.graphql
+  - models/bugReport.graphql
+  - models/campaign.graphql
+  - models/chat.graphql
+  - models/checkIn.graphql
+  - models/client.graphql
+  - models/competition.graphql
+  - models/competitionEvent.graphql
+  - models/competitionEventSchedule.graphql
+  - models/competitionGroup.graphql
+  - models/competitionGroupStanding.graphql
+  - models/competitionMatch.graphql
+  - models/competitionMatchTeam.graphql
+  - models/competitionRacingStanding.graphql
+  - models/competitionRound.graphql
+  - models/competitionRoyaleStanding.graphql
+  - models/competitionStage.graphql
+  - models/competitionSubmission.graphql
+  - models/competitionTeam.graphql
+  - models/contactForm.graphql
+  - models/country.graphql
+  - models/draw.graphql
+  - models/drawEntry.graphql
+  - models/drawWinner.graphql
+  - models/email.graphql
+  - models/emailTemplate.graphql
+  - models/dispute.graphql
+  - models/enum.graphql
+  - models/faq.graphql
+  - models/faqCategory.graphql
+  - models/featuredTile.graphql
+  - models/game.graphql
+  - models/giveaway.graphql
+  - models/jobLog.graphql
+  - models/lead.graphql
+  - models/leaderboard.graphql
+  - models/livery.graphql
+  - models/logitechScore.graphql
+  - models/matchTeamPrediction.graphql
+  - models/media.graphql
+  - models/message.graphql
+  - models/mission.graphql
+  - models/notification.graphql
+  - models/notificationPreference.graphql
+  - models/organisation.graphql
+  - models/organisationInvite.graphql
+  - models/organisationJoinRequest.graphql
+  - models/organisationSocialAccount.graphql
+  - models/pageContent.graphql
+  - models/paymentMethod.graphql
+  - models/platform.graphql
+  - models/popup.graphql
+  - models/prizePool.graphql
+  - models/recipient.graphql
+  - models/realm.graphql
+  - models/ruleSet.graphql
+  - models/rulesTemplate.graphql
+  - models/schedule.graphql
+  - models/shortenedLink.graphql
+  - models/siteSetting.graphql
+  - models/slider.graphql
+  - models/socialAccount.graphql
+  - models/socialShare.graphql
+  - models/spinner.graphql
+  - models/spinnerProduct.graphql
+  - models/spinnerProductDigital.graphql
+  - models/spinnerTransaction.graphql
+  - models/spinnerUser.graphql
+  - models/spinnerWinner.graphql
+  - models/sponsor.graphql
+  - models/statistic.graphql
+  - models/streamer.graphql
+  - models/streamerApplication.graphql
+  - models/streamerSchedule.graphql
+  - models/streamerTag.graphql
+  - models/survey.graphql
+  - models/team.graphql
+  - models/teamInvite.graphql
+  - models/teamJoinRequest.graphql
+  - models/teamPlayer.graphql
+  - models/teamSocialAccount.graphql
+  - models/timeline.graphql
+  - models/user.graphql
+  - models/userMission.graphql
+  - models/userSocialAccount.graphql
+  - models/vipSubscription.graphql
+  - models/vote.graphql
+  - models/voting.graphql
+  - models/votingCategory.graphql
+  - models/wallet.graphql
+  - models/websiteSettings.graphql
+  - models/whatsApp.graphql
+  - models/winnerForm.graphql
+  - models/withdrawForm.graphql
+
+seed:
+  import: seed.graphql
+
+hooks:
+  post-deploy:
+    - graphql get-schema --project db
+    - graphql codegen
+    - echo "Deploy completed"
+
+endpoint: ${env:PRISMA_ENDPOINT}

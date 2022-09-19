@@ -1,0 +1,41 @@
+type Game {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  type: String! # Battle Royale, Team vs Team (dual)
+  name: String! @unique
+  shortName: String! @unique
+  slug: String! @unique
+  banner: Media @relation(name: "GameBanner")
+  overview: Media @relation(name: "GameOverview")
+  logoUrl: String
+  logo: Media @relation(name: "GameLogo")
+  iconUrl: String
+  icon: Media @relation(name: "GameIcon")
+  color: String!
+  winner: Media @relation(name: "GameWinner")
+  variants: [GameVariant] @relation(name: "GameVariants", onDelete: CASCADE)
+  carCategories: [CarCategory] @relation(name: "GameCarCategories")
+  events: [CompetitionEvent] @relation(name: "CompetitionEventGame")
+  sponsorList: SponsorList
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type GameVariant {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  teamSize: Int! @default(value: 0)
+  minTeamSize: Int! @default(value: 0)
+  reserves: Int! @default(value: 0)
+  game: Game! @relation(name: "GameVariants")
+  teams: [Team] @relation(name: "TeamGame", onDelete: SET_NULL)
+  hasCoach: Boolean @default(value: false)
+  requiredGameId: String
+  requiredSocialAccount: SocialAccount
+  events: [CompetitionEvent] @relation(name: "CompetitionGameVariant")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+
+  #deprecated
+  platform: Platform
+}

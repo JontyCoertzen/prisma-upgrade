@@ -1,0 +1,9 @@
+type Platform {
+  id: ID! @id
+  name: String! @unique
+  shortName: String! @unique
+  color: String
+  icon: Media @relation(name: "PlatformIcon")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

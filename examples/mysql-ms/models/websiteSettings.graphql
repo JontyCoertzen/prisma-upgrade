@@ -1,0 +1,30 @@
+type WebsiteSettings {
+  id: ID! @id
+  name: String! @unique
+  homepageEvents: [HomepageEvent] @relation(name: "HomepageEvents")
+  gameTile: GameTile @relation(name: "GameTile", link: INLINE)
+  defaultEventsOrder: String! @default(value: "startDate_ASC")
+  defaultEventsLimit: Int! @default(value: 8)
+  advertisements: [AdvertisementCampaign]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type HomepageEvent {
+  id: ID! @id
+  websiteSettings: WebsiteSettings @relation(name: "HomepageEvents")
+  order: Int!
+  event: CompetitionEvent
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type GameTile {
+  id: ID! @id
+  websiteSettings: WebsiteSettings! @relation(name: "GameTile")
+  type: String!
+  game: Game!
+  winner: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

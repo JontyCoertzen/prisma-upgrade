@@ -1,0 +1,17 @@
+type Slider {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  order: Int @default(value: 0)
+  name: String!
+  background: Media @relation(name: "SliderBackground")
+  customCSS: String
+  customHTML: String
+  actions: [String] @scalarList(strategy: RELATION)
+  realms: [Realm] @relation(name: "SliderRealms")
+  analytics: [Analytics]
+  client: Client @relation(name: "ClientSlider")
+  showOnDesktop: Boolean! @default(value: true)
+  showOnMobile: Boolean! @default(value: true)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

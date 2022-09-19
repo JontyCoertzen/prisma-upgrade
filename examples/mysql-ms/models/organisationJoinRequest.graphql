@@ -1,0 +1,8 @@
+type OrganisationJoinRequest {
+  id: ID! @id
+  token: String
+  user: User! @relation(name: "UserOrganisationJoinRequests")
+  organisation: Organisation! @relation(name: "OrganisationJoinRequests")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,33 @@
+type Competition {
+  id: ID! @id
+  status: String @default(value: "pending")
+  type: String! # Tourment, League, Cup, Leaderboard
+  name: String! @unique
+  slug: String! @unique
+  banner: Media @relation(name: "CompetitionBanner")
+  overviewBanner: Media @relation(name: "CompetitionOverviewBanner")
+  tileBackground: Media @relation(name: "CompetitionTileBackground")
+  gameSelectorLogo: Media @relation(name: "CompetitionGameSelectorLogo")
+  gameLogo: Media @relation(name: "CompetitionGameLogo")
+  showOnHomePage: Boolean! @default(value: true)
+  pageBackground: Media @relation(name: "CompetitionPageBackground")
+  events: [CompetitionEvent]
+    @relation(name: "CompetitionEvents", onDelete: CASCADE)
+  stages: [CompetitionStage]
+    @relation(name: "CompetitionStages", onDelete: CASCADE)
+  matches: [CompetitionMatch] @relation(name: "CompetitionMatches")
+  teams: [CompetitionTeam]
+    @relation(name: "CompetitionTeams", onDelete: CASCADE)
+  teamCount: Int
+  primaryColor: String
+  allowedRoles: [Role]
+  sponsorList: SponsorList
+  blurbCategory: BlurbCategory
+  hasCustomPageContent: Boolean! @default(value: false)
+  pageContent: PageContent
+    @relation(name: "CompetitionCustomPageContent", onDelete: CASCADE)
+  pageContentDraft: PageContent
+    @relation(name: "CompetitionCustomPageContentDraft", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,32 @@
+type Wallet {
+  id: ID! @id
+  user: User @relation(name: "UserWallet")
+  organisation: Organisation @relation(name: "OrganisationWallet")
+  team: Team @relation(name: "TeamWallet")
+  type: String! @default(value: "user")
+  name: String!
+  total: String! @default(value: "0.00")
+  transactions: [WalletTransaction] @relation(name: "WalletTransactions")
+  currency: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type WalletTransaction {
+  id: ID! @id
+  wallet: Wallet! @relation(name: "WalletTransactions")
+  user: User @relation(name: "UserWalletTransactions")
+  organisation: Organisation @relation(name: "OrganisationWalletTransactions")
+  team: Team @relation(name: "TeamWalletTransactions")
+  type: String!
+  amount: String! @default(value: "0.00")
+  currency: String!
+  description: String
+  userRecipient: User @relation(name: "NewUserWalletRecipient")
+  teamRecipient: Team @relation(name: "TeamWalletRecipient")
+  organisationRecipient: Organisation
+    @relation(name: "OrganisationWalletRecipient")
+  createdBy: User @relation(name: "WalletTransactionCreatedBy")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

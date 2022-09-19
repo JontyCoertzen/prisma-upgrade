@@ -1,0 +1,18 @@
+type SponsorList {
+  id: ID! @id
+  name: String! @unique
+  sponsors: [Sponsor]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Sponsor {
+  id: ID! @id
+  order: Int! @default(value: 0)
+  name: String! @unique
+  websiteUrl: String!
+  logoUrl: String
+  logo: Media @relation(name: "SponsorLogo")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

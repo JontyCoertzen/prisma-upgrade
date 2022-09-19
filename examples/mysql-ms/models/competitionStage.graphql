@@ -1,0 +1,39 @@
+type CompetitionStage {
+  id: ID! @id
+  competition: Competition @relation(name: "CompetitionStages")
+  event: CompetitionEvent @relation(name: "CompetitionEventStages")
+  order: Int! @default(value: 0)
+  status: String! @default(value: "pending")
+  type: String!
+  name: String!
+  slug: String!
+  matchBanner: Media
+  groupLimit: Int! @default(value: 1)
+  teams: [CompetitionTeam] @relation(name: "CompetitionStageTeams")
+  checkIns: [CheckIn] @relation(name: "CheckinStage")
+  groups: [CompetitionGroup]
+    @relation(name: "CompetitionStageGroups", onDelete: CASCADE)
+  matches: [CompetitionMatch] @relation(name: "CompetitionStageMatches")
+  allowSubmissionVoting: Boolean! @default(value: false)
+  showSubmissionVoting: Boolean! @default(value: true)
+  submissions: [CompetitionSubmission]
+    @relation(name: "CompetitionStageSubmissions")
+  matchLimit: Int @default(value: 1)
+  roundLimit: Int @default(value: 1)
+  matchPageOpen: Int @default(value: 0)
+  matchPageClose: Int @default(value: 60)
+  relegation: Int @default(value: 0)
+  maxLosses: Int @default(value: 0)
+  showConsolationRound: Boolean! @default(value: true)
+  allowScheduling: Boolean! @default(value: true)
+  allowScoreUpload: Boolean! @default(value: true)
+  promoteTo: CompetitionStage @relation(name: "CompetitionStagePromote")
+  demoteTo: CompetitionStage @relation(name: "CompetitionStageDemote")
+  bountyTake: Int @default(value: 0)
+  battleRoyaleScore: BattleRoyaleScore
+  startDate: DateTime
+  endDate: DateTime
+  matchCodes: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

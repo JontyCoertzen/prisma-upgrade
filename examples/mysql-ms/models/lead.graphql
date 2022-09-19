@@ -1,0 +1,8 @@
+type Lead {
+  id: ID! @id
+  status: String! @default(value: "open")
+  user: User! @relation(name: "UserLead")
+  tag: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

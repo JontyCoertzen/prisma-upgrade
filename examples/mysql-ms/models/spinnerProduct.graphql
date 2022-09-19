@@ -1,0 +1,20 @@
+type SpinnerProduct {
+  id: ID! @id
+  type: String!
+  status: String!
+  name: String!
+  description: String
+  logo: Media @relation(name: "SpinnerProductLogo")
+  dropRate: Float! @default(value: 0.00)
+  rarity: String! @default(value: "common")
+  stock: Int! @default(value: 0)
+  retailValue: String! @default(value: "0.00")
+  digitalStock: [SpinnerProductDigital]
+    @relation(name: "SpinnerProductDigitalProduct")
+  client: Client @relation(name: "SpinnerProductClient")
+  winners: [SpinnerWinner] @relation(name: "SpinnerWinnerProduct")
+  spinners: [Spinner] @relation(name: "SpinnerProducts")
+  logs: [AuditLog] @relation(name: "SpinnerProductLogs")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

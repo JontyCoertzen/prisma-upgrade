@@ -1,0 +1,10 @@
+type Breaking {
+  id: ID! @id
+  content: String!
+  isLink: Boolean! @default(value: false)
+  link: String
+  icon: String # facebook / twitter / youtube / instagram / twitch
+  publishedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

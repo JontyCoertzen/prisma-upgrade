@@ -1,0 +1,17 @@
+type AdvertisementCampaign {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  type: String! @default(value: "event")
+  name: String!
+  startAt: DateTime!
+  endAt: DateTime!
+  priority: Boolean! @default(value: false)
+  client: Client @relation(name: "ClientAdvertisementCampaign")
+  advertisements: [Advertisement]
+    @relation(name: "AdvertisementCampaignAdvertisement")
+
+  events: [CompetitionEvent] @relation(name: "AdvertisementCampaignEvents")
+
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

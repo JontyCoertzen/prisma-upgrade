@@ -1,0 +1,56 @@
+type Team {
+  id: ID! @id
+  status: String! @default(value: "active")
+  type: String @default(value: "organisation")
+  name: String!
+  tag: String
+  facebookLink: String
+  twitterLink: String
+  instagramLink: String
+  youtubeLink: String
+  owner: User @relation(name: "TeamOwner")
+  organisation: Organisation @relation(name: "OrganisationTeams")
+  players: [TeamPlayer] @relation(name: "TeamPlayers", onDelete: CASCADE)
+  gameVariant: GameVariant @relation(name: "TeamGame")
+  primaryColour: String
+  banner: Media @relation(name: "TeamBanner")
+  logoUrl: String
+  logo: Media @relation(name: "TeamLogo")
+  useOrgLogo: Boolean @default(value: true)
+  events: [CompetitionTeam]
+    @relation(name: "TeamCompetitions", onDelete: CASCADE)
+  seed: Int
+
+  badges: [Badge] @relation(name: "BadgeTeams")
+
+  invites: [TeamInvite] @relation(name: "TeamInvites", onDelete: CASCADE)
+  joinRequests: [TeamJoinRequest]
+    @relation(name: "TeamJoinRequests", onDelete: CASCADE)
+
+  winnerForms: [WinnerForm] @relation(name: "TeamWinnerForm")
+  prizes: [Prize] @relation(name: "TeamPrizes")
+
+  socialAccounts: [TeamSocialAccount]
+    @relation(name: "TeamSocialAccounts", onDelete: CASCADE)
+
+  wallets: [Wallet] @relation(name: "TeamWallet")
+  walletTransactions: [WalletTransaction]
+    @relation(name: "TeamWalletTransactions")
+
+  racingClass: CarCategory
+
+  activityEvents: [ActivityEvent]
+    @relation(name: "TeamActivityEvents", onDelete: CASCADE)
+
+  logs: [AuditLog]
+
+  altNames: [String] @scalarList(strategy: RELATION)
+
+  faceitId: String
+  region: String
+
+  intelDump: String
+
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

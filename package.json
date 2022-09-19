@@ -1,0 +1,74 @@
+{
+  "name": "prisma-upgrade",
+  "version": "0.0.44",
+  "description": "Upgrade is a CLI tool to help Prisma 1 users upgrade to Prisma 2+.",
+  "main": "dist/api/index.js",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "bin": {
+    "prisma-upgrade": "bin/upgrade.js"
+  },
+  "scripts": {
+    "test": "mocha dist/api/index_test.js --timeout 10s",
+    "test:watch": "mocha -w dist/api/index_test.js",
+    "generate": "pegjs src/prisma2/parser/index.pegjs && ./scripts/cjs2es.js",
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "format": "prettier --write src/**/*",
+    "check": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prisma/upgrade.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prisma/upgrade/issues"
+  },
+  "homepage": "https://github.com/prisma/upgrade#readme",
+  "dependencies": {
+    "@prisma/sdk": "2.3.0",
+    "@types/graphlib-dot": "0.6.1",
+    "arg": "4.1.3",
+    "change-case": "4.1.1",
+    "execa": "4.0.2",
+    "graphlib": "2.1.8",
+    "graphlib-dot": "0.6.4",
+    "graphql": "15.0.0",
+    "is-url": "1.2.4",
+    "js-yaml": "3.14.0",
+    "kleur": "3.0.3",
+    "mysqldump": "^3.2.0",
+    "prisma": "2.18.0",
+    "prismafile": "1.0.11",
+    "redent": "3.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "8.0.0",
+    "@rollup/plugin-sucrase": "3.0.2",
+    "@types/graphlib": "2.1.6",
+    "@types/is-url": "1.2.28",
+    "@types/js-yaml": "3.12.4",
+    "@types/mocha": "7.0.2",
+    "@types/pg": "7.14.3",
+    "mariadb": "3.0.1",
+    "mocha": "7.2.0",
+    "pg": "8.2.1",
+    "prettier": "2.0.5",
+    "prisma1": "1.34.11",
+    "resolve": "1.17.0",
+    "rollup": "2.13.1",
+    "slugify": "1.4.0",
+    "testaway": "2.0.1",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.5"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "semi": false
+  }
+}

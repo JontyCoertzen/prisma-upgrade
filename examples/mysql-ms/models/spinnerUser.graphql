@@ -1,0 +1,12 @@
+type SpinnerUser {
+  id: ID! @id
+  user: User! @relation(name: "UserSpinner")
+  lastSpin: DateTime
+  winnings: [SpinnerWinner]
+    @relation(name: "SpinnerWinnerUser", onDelete: CASCADE)
+  availableSpins: Int!
+  spinTransactions: [SpinnerTransaction]
+    @relation(name: "SpinnerUserTransactions", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

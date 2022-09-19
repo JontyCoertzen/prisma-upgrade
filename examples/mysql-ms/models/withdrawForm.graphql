@@ -1,0 +1,27 @@
+type WithdrawForm {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  declineReason: String
+  paymentType: String! @default(value: "bank-account")
+  number: Int
+
+  user: User! @relation(name: "UserWithdrawForms")
+  wallet: Wallet! @relation(name: "UserWithdrawWallet")
+  amount: String!
+
+  proofOfBank: Media @relation(name: "WithdrawFormProofOfBank")
+  hasProofOfBank: Boolean @default(value: false)
+  bank: String
+  accountHolder: String
+  accountNumber: String
+  branch: String
+  branchNumber: String
+  swiftCode: String
+
+  paypalEmail: String
+
+  batchPayment: BatchPayment @relation(name: "WithdrawFormBatchPayment")
+  logs: [AuditLog]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

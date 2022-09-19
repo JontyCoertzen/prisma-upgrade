@@ -1,0 +1,24 @@
+type PrizePool {
+  id: ID! @id
+  total: Int
+  otherTotal: String
+  currencySymbol: String @default(value: "R")
+  prizes: [Prize!]!
+  event: CompetitionEvent @relation(name: "CompetitionEventPrizePool")
+  paymentClientSameAsEvent: Boolean! @default(value: true)
+  client: Client @relation(name: "PrizePoolClient")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Prize {
+  id: ID! @id
+  placement: Int
+  share: Int
+  otherShare: String
+  premiumShare: String
+  team: Team @relation(name: "TeamPrizes")
+  pool: PrizePool
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

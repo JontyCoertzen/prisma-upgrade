@@ -1,0 +1,9 @@
+type Dispute {
+  id: ID! @id
+  subject: String
+  createdByUser: User
+  createdByTeam: Team
+  chat: Chat
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

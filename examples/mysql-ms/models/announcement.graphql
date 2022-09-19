@@ -1,0 +1,14 @@
+type Announcement {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  users: [AnnouncementUser]
+    @relation(name: "AnnouncementUserAnnouncement", onDelete: CASCADE)
+  name: String!
+  subject: String!
+  content: String!
+  scheduledAt: DateTime
+  sponsorList: SponsorList
+  logs: [AuditLog]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

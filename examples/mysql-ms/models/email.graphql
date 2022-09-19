@@ -1,0 +1,9 @@
+type Email {
+  id: ID! @id
+  user: User! @relation(name: "UserEmails")
+  subject: String!
+  preview: String!
+  content: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

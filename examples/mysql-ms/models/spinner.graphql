@@ -1,0 +1,15 @@
+type Spinner {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  name: String! @unique
+  logo: Media @relation(name: "SpinnerLogo")
+  products: [SpinnerProduct] @relation(name: "SpinnerProducts")
+  winners: [SpinnerWinner] @relation(name: "SpinnerWinnerSpinner")
+  pricePerSpin: Int! @default(value: 0)
+  advertisementCampaigns: [AdvertisementCampaign]
+    @relation(name: "SpinnerAdvertismentCampaigns")
+  howItWorks: PageContent @relation(name: "SpinnerHowItWorks")
+  terms: PageContent @relation(name: "SpinnerTerms")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

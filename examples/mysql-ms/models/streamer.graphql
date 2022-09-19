@@ -1,0 +1,25 @@
+type Streamer {
+  id: ID! @id
+  name: String! @unique
+  slug: String! @unique
+  platform: String!
+  user: User @relation(name: "StreamerUser")
+  email: String
+  description: String
+
+  cardFront: Media @relation(name: "StreamerCardFront")
+  cardBack: Media @relation(name: "StreamerCardBack")
+
+  facebookLink: String
+  twitterLink: String
+  instagramLink: String
+  youtubeLink: String
+  twitchLink: String
+
+  schedule: [StreamerSchedule]
+
+  voters: [User] @relation(name: "StreamerVoters")
+  tags: [StreamerTag] @relation(name: "StreamerTags")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

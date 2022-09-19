@@ -1,0 +1,37 @@
+type CompetitionRacingStanding {
+  id: ID! @id
+  group: CompetitionGroup @relation(name: "CompetitionRacingStandings")
+  rank: Int! @default(value: 0)
+  team: CompetitionTeam!
+  week1: Int! @default(value: 0)
+  week2: Int! @default(value: 0)
+  week3: Int! @default(value: 0)
+  week4: Int! @default(value: 0)
+  week5: Int! @default(value: 0)
+  week6: Int! @default(value: 0)
+  total: Int! @default(value: 0)
+}
+
+type CompetitionRacingScore {
+  id: ID! @id
+  matchTeam: CompetitionMatchTeam
+    @relation(name: "CompetitionMatchCompetitionRacingScore")
+  position: Int
+  totalTime: Int
+  laps: Int
+  bestLap: Int
+  player1Score: PlayerCompetitionRacingScore
+    @relation(name: "CompetitionRacingPlayer1Score")
+  player2Score: PlayerCompetitionRacingScore
+    @relation(name: "CompetitionRacingPlayer2Score")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type PlayerCompetitionRacingScore {
+  id: ID! @id
+  user: User!
+  time: Int
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

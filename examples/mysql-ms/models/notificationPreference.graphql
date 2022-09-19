@@ -1,0 +1,22 @@
+type NotificationPreference {
+  id: ID! @id
+  user: User! @relation(name: "UserNotificationPreference")
+  games: [NotificationGamePreference]
+    @relation(name: "NotificationGamePreference")
+  newGames: Boolean! @default(value: true)
+  newsletter: Boolean! @default(value: true)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type NotificationGamePreference {
+  id: ID! @id
+  notificationPreference: NotificationPreference!
+    @relation(name: "NotificationGamePreference")
+  game: Game!
+  inApp: Boolean! @default(value: true)
+  whatsapp: Boolean! @default(value: true)
+  email: Boolean! @default(value: true)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

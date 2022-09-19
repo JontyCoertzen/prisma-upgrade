@@ -1,0 +1,7 @@
+type Vote {
+  id: ID! @id
+  user: User!
+  voting: Voting @relation(name: "VotingVotes")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

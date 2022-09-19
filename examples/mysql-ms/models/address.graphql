@@ -1,0 +1,13 @@
+type Address {
+  id: ID! @id
+  type: String! @default(value: "residential")
+  line1: String!
+  line2: String
+  city: String!
+  code: String!
+  province: String!
+  user: User @relation(name: "UsersAddress")
+  client: Client @relation(name: "ClientAddress")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

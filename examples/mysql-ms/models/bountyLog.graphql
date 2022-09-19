@@ -1,0 +1,9 @@
+type BountyLog {
+  id: ID! @id
+  team: CompetitionTeam! @relation(name: "CompetitionTeamToBountyLogs")
+  stage: CompetitionStage!
+  match: CompetitionMatch!
+  amount: Float! @default(value: 0)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

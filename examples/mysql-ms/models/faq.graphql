@@ -1,0 +1,12 @@
+type Faq {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  order: Int! @default(value: 0)
+  title: String! @unique
+  slug: String! @unique
+  description: String
+  content: String!
+  category: FaqCategory @relation(name: "FaqCategory")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

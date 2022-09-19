@@ -1,0 +1,7 @@
+type DrawWinner {
+  id: ID! @id
+  user: User!
+  winAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

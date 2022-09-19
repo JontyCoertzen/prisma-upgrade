@@ -1,0 +1,16 @@
+type RuleSet {
+  id: ID! @id
+  name: String!
+  rules: [Rule]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Rule {
+  id: ID! @id
+  index: Float! @default(value: 0)
+  content: String
+  rules: [Rule]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

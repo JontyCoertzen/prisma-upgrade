@@ -1,0 +1,8 @@
+type TeamJoinRequest {
+  id: ID! @id
+  token: String
+  user: User! @relation(name: "UserTeamJoinRequests")
+  team: Team! @relation(name: "TeamJoinRequests")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

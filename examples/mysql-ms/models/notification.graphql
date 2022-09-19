@@ -1,0 +1,12 @@
+type Notification {
+  id: ID! @id
+  user: User! @relation(name: "UserNotifications")
+  read: Boolean! @default(value: false)
+  logoUrl: String
+  logo: Media @relation(name: "NotificationLogo")
+  title: String!
+  content: String!
+  url: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

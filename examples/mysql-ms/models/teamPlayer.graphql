@@ -1,0 +1,9 @@
+type TeamPlayer {
+  id: ID! @id
+  team: Team! @relation(name: "TeamPlayers")
+  user: User!
+  position: Int
+  role: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

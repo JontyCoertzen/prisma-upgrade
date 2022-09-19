@@ -1,0 +1,12 @@
+type CompetitionSubmission {
+  id: ID! @id
+  stage: CompetitionStage! @relation(name: "CompetitionStageSubmissions")
+  user: User! @relation(name: "CompetitionSubmissionUser")
+  media: [Media]
+  votes: [User] @relation(name: "CompetitionSubmissionVotes")
+  email: String
+  shortenedLink: ShortenedLink
+    @relation(name: "CompetitionSubmissionShortenedLink", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

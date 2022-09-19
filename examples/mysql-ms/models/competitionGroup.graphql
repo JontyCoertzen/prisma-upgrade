@@ -1,0 +1,20 @@
+type CompetitionGroup {
+  id: ID! @id
+  number: Int
+  rounds: [CompetitionRound]
+    @relation(name: "CompetitionGroupRounds", onDelete: CASCADE)
+  matches: [CompetitionMatch]
+    @relation(name: "CompetitionGroupMatches", onDelete: CASCADE)
+  stage: CompetitionStage @relation(name: "CompetitionStageGroups")
+  teams: [CompetitionTeam] @relation(name: "CompetitionGroupTeams")
+  #TODO: Remove standings - make more dynamic
+  standings: [CompetitionGroupStanding]
+    @relation(name: "CompetitionGroupStandings", onDelete: CASCADE)
+  royaleStandings: [CompetitionRoyaleStanding]
+    @relation(name: "CompetitionRoyaleStandings", onDelete: CASCADE)
+  racingStandings: [CompetitionRacingStanding]
+    @relation(name: "CompetitionRacingStandings", onDelete: CASCADE)
+
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

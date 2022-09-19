@@ -1,0 +1,14 @@
+type Advertisement {
+  id: ID! @id
+  campaign: AdvertisementCampaign
+    @relation(name: "AdvertisementCampaignAdvertisement")
+
+  analytics: [Analytics]
+
+  type: String!
+  media: Media @relation(name: "AdvertisementMedia", onDelete: CASCADE)
+  externalLink: String
+  clicks: Int! @default(value: 0)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

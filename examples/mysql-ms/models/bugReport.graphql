@@ -1,0 +1,20 @@
+type BugReport {
+  id: ID! @id
+  status: String! @default(value: "open")
+  number: Int!
+  name: String!
+  email: String!
+  url: String!
+  description: String!
+  screenshots: [Media]
+  location: String
+  osVersion: String
+  osName: String
+  deviceType: String
+  browserName: String
+  fullBrowserVersion: String
+  mobileVendor: String
+  mobileModel: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

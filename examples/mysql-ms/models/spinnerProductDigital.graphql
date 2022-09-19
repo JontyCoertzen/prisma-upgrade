@@ -1,0 +1,10 @@
+type SpinnerProductDigital {
+  id: ID! @id
+  winner: SpinnerWinner @relation(name: "SpinnerProductDigitalWinner")
+  product: SpinnerProduct! @relation(name: "SpinnerProductDigitalProduct")
+  code: String!
+  claimed: Boolean! @default(value: false)
+  claimedAt: DateTime
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

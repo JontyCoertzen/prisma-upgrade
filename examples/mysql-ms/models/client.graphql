@@ -1,0 +1,32 @@
+type Client {
+  id: ID! @id
+  companyName: String! @unique
+  companyAddress: Address
+    @relation(name: "ClientAddress", link: INLINE, onDelete: CASCADE)
+  companyLogo: Media @relation(name: "ClientLogo")
+
+  mainContactFirstName: String!
+  mainContactLastName: String!
+  mainContactEmail: String!
+  mainContactCellNumber: String
+
+  hasSeperatePaymentContact: Boolean! @default(value: false)
+  paymentContactFirstName: String
+  paymentContactLastName: String
+  paymentContactEmail: String
+  paymentContactCellNumber: String
+
+  allowAutomaticWinnerFormSubmission: Boolean! @default(value: true)
+  maxWinnerFormsOnSubmit: Int! @default(value: 0)
+
+  winnerForms: [WinnerForm] @relation(name: "WinnerFormClient")
+
+  advertisementCampaigns: [AdvertisementCampaign]
+    @relation(name: "ClientAdvertisementCampaign")
+
+  featuredTiles: [FeaturedTile] @relation(name: "ClientFeaturedTile")
+  sliders: [Slider] @relation(name: "ClientSlider")
+
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

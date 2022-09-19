@@ -1,0 +1,22 @@
+type SpinnerWinner {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  type: String!
+  spinner: Spinner! @relation(name: "SpinnerWinnerSpinner")
+  product: SpinnerProduct! @relation(name: "SpinnerWinnerProduct")
+  user: SpinnerUser! @relation(name: "SpinnerWinnerUser")
+  transaction: SpinnerTransaction!
+    @relation(name: "SpinnerWinnerTransaction", link: INLINE)
+  address: Address
+  size: String
+  variant: String
+  trackingNumber: String
+  trackingLink: String
+  orderReference: String
+  digitalProduct: SpinnerProductDigital
+    @relation(name: "SpinnerProductDigitalWinner", link: INLINE)
+  claimed: Boolean! @default(value: false)
+  claimedAt: DateTime
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

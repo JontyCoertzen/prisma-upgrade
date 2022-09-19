@@ -1,0 +1,56 @@
+type VipSubscription {
+  id: ID! @id
+  status: String! @default(value: "active")
+  description: String
+  user: User! @relation(name: "UserVipSubscription")
+  amount: String! @default(value: "0.00")
+  amountValidTill: DateTime
+  subscriptionValidTill: DateTime
+  lastPaid: DateTime
+  plan: VipSubscriptionPlan! @relation(name: "VipSubscriptionPlan")
+  transactions: [VipSubscriptionTransaction]
+    @relation(name: "VipSubscriptionTransactions")
+  # PEACH
+  subscriptionPaymentId: String
+  failedPaymentAttempts: Int @default(value: 0)
+  #====
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type VipSubscriptionPlan {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  name: String! @unique
+  caption: String!
+  amount: String! @default(value: "0.00")
+  recurranceText: String!
+  recurrance: Int! @default(value: 1)
+  subscriptions: [VipSubscription] @relation(name: "VipSubscriptionPlan")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  planId: String! @unique
+}
+
+type VipSubscriptionTransaction {
+  id: ID! @id
+  subscription: VipSubscription @relation(name: "VipSubscriptionTransactions")
+  # PEACH
+  transactionId: String
+  registrationId: String
+  transactionNdc: String
+  transactionStatus: String
+  paymentType: String
+  paymentBrand: String
+  amount: String! @default(value: "0.00")
+  currency: String
+  descriptor: String
+  recurringType: String
+  resultCode: String
+  resultDesc: String
+  riskScore: String
+  paymentMethod: PaymentMethod
+  #====
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

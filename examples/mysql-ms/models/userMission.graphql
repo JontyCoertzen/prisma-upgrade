@@ -1,0 +1,11 @@
+type UserMission {
+  id: ID! @id
+  taskCount: Int! @default(value: 0)
+  taskCompletion: Int! @default(value: 0)
+  isCompleted: Boolean! @default(value: false)
+  mission: Mission! @relation(name: "MissionUsers")
+  user: User! @relation(name: "UserMissions")
+  logs: [AuditLog] @relation(name: "UserMissonLogs")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

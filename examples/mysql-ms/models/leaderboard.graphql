@@ -1,0 +1,48 @@
+type Leaderboard {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  name: String! @unique
+  slug: String! @unique
+  leaderboardUsers: [LeaderboardUser]
+    @relation(name: "UserLeaderboard", onDelete: CASCADE)
+  pointsAllocations: [LeaderboardPointsAllocation]
+  multiplier: Float
+  vipMultiplier: Float
+  banner: Media
+  primaryColor: String
+  secondaryColor: String
+  terms: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type LeaderboardUser {
+  id: ID! @id
+  leaderboard: Leaderboard @relation(name: "UserLeaderboard")
+  user: User! @relation(name: "LeaderboardUser")
+  totalPoints: Int @default(value: 0)
+  points: [LeaderboardUserPoint]
+    @relation(name: "LeaderboardPointsUser", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type LeaderboardUserPoint {
+  id: ID! @id
+  user: LeaderboardUser @relation(name: "LeaderboardPointsUser")
+  action: String! # || allocationName
+  actionId: String # eg. EventId
+  points: Int!
+  description: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type LeaderboardPointsAllocation {
+  id: ID! @id
+  name: String! @unique
+  description: String
+  points: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

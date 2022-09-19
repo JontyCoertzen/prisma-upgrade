@@ -1,0 +1,12 @@
+type ActivityEvent {
+  id: ID! @id
+  type: String!
+  ownerId: String!
+  ownerType: String!
+  relatedId: String
+  relatedType: String
+  relatedText: String
+  showRelatedImage: Boolean
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

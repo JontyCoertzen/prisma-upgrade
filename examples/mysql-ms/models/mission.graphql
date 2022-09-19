@@ -1,0 +1,21 @@
+type Mission {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  type: String!
+  order: Int! @default(value: 0)
+  slug: String! @unique
+  task: String!
+  taskCount: Int!
+  badge: Badge @relation(name: "MissionBadge", link: INLINE)
+  users: [UserMission] @relation(name: "MissionUsers")
+  parent: Mission @relation(name: "MissionUpgradeParent")
+  upgrades: [Mission] @relation(name: "MissionUpgrades")
+  triggerType: String!
+  triggerTypeFilter: String! @default(value: "any")
+  triggerTypeParam: String
+  triggerEvent: String!
+  triggerEventFilter: String! @default(value: "any")
+  triggerEventParam: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

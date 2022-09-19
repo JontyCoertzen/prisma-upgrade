@@ -1,0 +1,46 @@
+type Giveaway {
+  id: ID! @id
+  type: String! @default(value: "giveaway-type")
+  status: String! @default(value: "pending")
+  name: String!
+  slug: String! @unique
+  gleamLink: String
+  banner: Media @relation(name: "GiveAwayBanner")
+  pageBackground: Media @relation(name: "GiveAwayPageBackground")
+  prizes: [GiveawayPrize] @relation(name: "GiveawayPrizes")
+  winners: [GiveawayWinner] @relation(name: "GiveawayWinners")
+  emailContent: String
+  emailHtml: String
+  emailSubject: String
+  terms: PageContent @relation(name: "GiveawayTerms")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type GiveawayPrize {
+  id: ID! @id
+  giveaway: Giveaway @relation(name: "GiveawayPrizes")
+  winners: [GiveawayWinner] @relation(name: "GiveawayPrizeWinner")
+  type: String! @default(value: "voucher")
+  name: String!
+  numberOfWinners: Int! @default(value: 1)
+  description: String
+  voucherCode: String
+  leaderboardPoints: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type GiveawayWinner {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  giveaway: Giveaway @relation(name: "GiveawayWinners")
+  prize: GiveawayPrize @relation(name: "GiveawayPrizeWinner")
+  email: String!
+  user: User @relation(name: "GiveawayWinnerUser")
+  address: Address
+  bankAccount: BankAccount
+  notified: DateTime
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

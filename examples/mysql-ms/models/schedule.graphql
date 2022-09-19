@@ -1,0 +1,11 @@
+type Schedule {
+  id: ID! @id
+  status: String! @default(value: "pending") # pending / accepted / declined
+  scheduledByUser: User! @relation(name: "ScheduledByUser")
+  scheduledByTeam: Team @relation(name: "ScheduledByTeam")
+  scheduledDate: DateTime!
+  acceptedBy: User @relation(name: "ScheduleAcceptedBy")
+  declinedBy: User @relation(name: "ScheduleDeclinedBy")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

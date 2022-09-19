@@ -1,0 +1,36 @@
+type CompetitionTeam {
+  id: ID! @id
+  status: String! @default(value: "active")
+  competition: Competition @relation(name: "CompetitionTeams")
+  event: CompetitionEvent @relation(name: "CompetitionEventTeams")
+  stages: [CompetitionStage] @relation(name: "CompetitionStageTeams")
+  seed: Int! @default(value: 0)
+  team: Team @relation(name: "TeamCompetitions")
+  user: User @relation(name: "UserCompetitions")
+  roster: [User] @relation(name: "CompetitionTeamRoster")
+  checkIns: [CheckIn] @relation(name: "TeamCheckIn", onDelete: CASCADE)
+  forfeited: Boolean! @default(value: false)
+  parentEmail: String
+  bounty: Float
+  bountyLogs: [BountyLog] @relation(name: "CompetitionTeamBountyLogs")
+  carSelection: CarSelection
+    @relation(
+      name: "CompetitionTeamCarSelection"
+      onDelete: CASCADE
+      link: INLINE
+    )
+  logs: [AuditLog]
+  competed: Boolean! @default(value: true)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type CarSelection {
+  id: ID! @id
+  event: CompetitionEvent! @relation(name: "CompetitionEventCarSelection")
+  team: CompetitionTeam! @relation(name: "CompetitionTeamCarSelection")
+  car: String!
+  number: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

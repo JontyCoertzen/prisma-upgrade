@@ -1,0 +1,196 @@
+type Role {
+  id: ID! @id
+  name: String! @unique
+  isDefault: Boolean! @default(value: false)
+}
+
+type User {
+  id: ID! @id
+  status: String! @default(value: "completed")
+  authToken: String
+  primaryColour: String
+  banner: Media @relation(name: "UserBanner")
+  logo: Media @relation(name: "UserLogo")
+  logoUrl: String
+  avatar: UserAvatar
+    @relation(name: "UserAvatar", link: INLINE, onDelete: CASCADE)
+  tempAvatar: String
+  firstName: String
+  lastName: String
+  displayName: String!
+  displayNameChangedAt: DateTime
+  cellNumber: String
+  idNumber: String
+  dateOfBirth: DateTime
+  gender: String
+  province: String
+  country: String
+  email: String! @unique
+  emailConfirmed: Boolean! @default(value: false)
+  confirmEmailToken: String @unique
+  password: String!
+  role: Role
+  organisation: Organisation @relation(name: "OrganisationPlayerRelation")
+  organisationInvites: [UserInvite] @relation(name: "UserOrganisationInvites")
+  newOrganisationInvites: [OrganisationInvite]
+    @relation(name: "NewUserOrganisationInvites")
+  organisationJoinRequests: [OrganisationJoinRequest]
+    @relation(name: "UserOrganisationJoinRequests")
+  teamJoinRequests: [TeamJoinRequest] @relation(name: "UserTeamJoinRequests")
+  teams: [Team] @relation(name: "UserTeams")
+  teamInvites: [TeamInvite] @relation(name: "UserTeamInvites")
+  resetPasswordToken: String @unique
+  resetPasswordExpires: Float
+  facebookLink: String
+  twitterLink: String
+  instagramLink: String
+  youtubeLink: String
+  twitchLink: String
+  facebookId: String @unique
+  twitterId: String @unique
+  instagramId: String @unique
+  youtubeId: String @unique
+  twitchId: String @unique
+  googleId: String @unique
+
+  paypalId: String @unique
+  paypalName: String
+  paypalEmail: String
+  paypalCountry: String
+
+  discordUser: DiscordUser
+    @relation(name: "UserDiscordProfile", link: INLINE, onDelete: CASCADE)
+
+  epicId: String
+  steamId: String @unique
+  playstationId: String
+  battleTag: String
+  battlenetId: String
+  eaId: String
+  xboxId: String
+  originId: String
+  switchId: String
+  riotId: String
+  uplayId: String
+  freeFireId: String
+
+  apexLegendsIgn: String
+
+  followingCount: Int! @default(value: 0)
+  following: [User] @relation(name: "FollowingUsers")
+
+  followersCount: Int! @default(value: 0)
+  followers: [User] @relation(name: "FollowerUsers")
+
+  statistics: [Statistic] @relation(name: "UserStatistics")
+
+  socialAccounts: [UserSocialAccount]
+    @relation(name: "UserSocialAccounts", onDelete: CASCADE)
+
+  biography: String
+  lastLoggedInAt: DateTime
+  address: Address
+    @relation(name: "UsersAddress", link: INLINE, onDelete: CASCADE)
+
+  studentId: String
+
+  emails: [Email] @relation(name: "UserEmails")
+
+  events: [CompetitionTeam]
+    @relation(name: "UserCompetitions", onDelete: CASCADE)
+
+  bankAccount: BankAccount @relation(name: "UserBankAccount")
+  preferredPaymentType: String
+  winnerForms: [WinnerForm] @relation(name: "UserWinnerForm")
+  giveawayWinners: [GiveawayWinner] @relation(name: "GiveawayWinnerUser")
+
+  announcements: [AnnouncementUser] @relation(name: "AnnouncementUser")
+  # messages: [Notification] @relation(name: "UserNotifications")
+
+  notifications: [Notification] @relation(name: "UserNotifications")
+  notificationPreference: NotificationPreference
+    @relation(name: "UserNotificationPreference", link: INLINE)
+  liveries: [Livery] @relation(name: "UserLiveries")
+
+  drawEntries: [DrawEntry] @relation(name: "UserDrawEntries")
+
+  wallets: [Wallet] @relation(name: "UserWallet")
+  walletTransactions: [WalletTransaction]
+    @relation(name: "UserWalletTransactions")
+  withdrawForms: [WithdrawForm] @relation(name: "UserWithdrawForms")
+
+  referredBy: User @relation(name: "UserReferredBy")
+  lead: Lead @relation(name: "UserLead", link: INLINE, onDelete: CASCADE)
+
+  leaderboards: [LeaderboardUser]
+    @relation(name: "LeaderboardUser", onDelete: CASCADE)
+  surveys: [SurveyFulfillment] @relation(name: "UserSurveys", onDelete: CASCADE)
+
+  pageAccess: [String] @scalarList(strategy: RELATION)
+  randomField: String
+
+  subscription: VipSubscription
+    @relation(name: "UserVipSubscription", link: INLINE)
+
+  paymentMethods: [PaymentMethod] @relation(name: "UserPaymentMethods")
+
+  badges: [Badge] @relation(name: "BadgeUsers")
+  missions: [UserMission] @relation(name: "UserMissions", onDelete: CASCADE)
+
+  spinnerUser: SpinnerUser @relation(name: "UserSpinner", link: INLINE)
+
+  activityEvents: [ActivityEvent]
+    @relation(name: "UserActivityEvents", onDelete: CASCADE)
+
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type UserInvite {
+  id: ID! @id
+  email: String!
+  token: String! @unique
+  user: User @relation(name: "UserOrganisationInvites")
+  organisation: Organisation! @relation(name: "OrganisationInvites")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type UserAvatar {
+  id: ID! @id
+  user: User! @relation(name: "UserAvatar")
+  skinColor: String
+  hairStyle: String
+  hairColor: String
+  fabricColor: String
+  eyes: String
+  eyebrows: String
+  mouth: String
+  facialHair: String
+  clothe: String
+  glasses: String
+  glassesOpacity: Float
+  accesories: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type DiscordUser {
+  id: ID! @id
+  user: User! @relation(name: "UserDiscordProfile")
+  discordId: String! @unique
+  username: String
+  avatar: String
+  discriminator: String
+  publicFlags: Int
+  flags: Int
+  locale: String
+  mfaEnabled: Boolean
+  email: String
+  verified: Boolean
+  authToken: String
+  refreshToken: String
+  expires: DateTime
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

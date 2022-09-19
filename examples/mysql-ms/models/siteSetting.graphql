@@ -1,0 +1,7 @@
+type SiteSetting {
+  id: ID! @id
+  key: String! @unique
+  value: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

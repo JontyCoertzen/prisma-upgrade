@@ -1,0 +1,7 @@
+type MatchTeamPrediction {
+  id: ID! @id
+  user: User!
+  team: CompetitionMatchTeam! @relation(name: "CompetitionMatchTeamPredictions")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,11 @@
+type TeamInvite {
+  id: ID! @id
+  email: String!
+  token: String
+  position: Int
+  role: String! @default(value: "Player")
+  user: User @relation(name: "UserTeamInvites")
+  team: Team! @relation(name: "TeamInvites")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

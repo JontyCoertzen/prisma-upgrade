@@ -1,0 +1,39 @@
+type Organisation {
+  id: ID! @id
+  status: String! @default(value: "active")
+  name: String!
+  tag: String
+  founded: String
+  biography: String
+  facebookLink: String
+  twitterLink: String
+  instagramLink: String
+  youtubeLink: String
+  primaryColour: String
+  banner: Media @relation(name: "OrganisationBanner")
+  logoUrl: String
+  logo: Media @relation(name: "OrganisationLogo")
+  owner: User! @relation(name: "OrganisationOwnerRelation")
+  players: [User]! @relation(name: "OrganisationPlayerRelation")
+  invitedPlayers: [UserInvite] @relation(name: "OrganisationInvites")
+  invites: [OrganisationInvite] @relation(name: "NewOrganisationInvites")
+  acceptingJoinRequests: Boolean @default(value: true)
+  joinRequests: [OrganisationJoinRequest]
+    @relation(name: "OrganisationJoinRequests")
+  teams: [Team] @relation(name: "OrganisationTeams", onDelete: CASCADE)
+
+  badges: [Badge] @relation(name: "BadgeOrganisations")
+
+  activityEvents: [ActivityEvent]
+    @relation(name: "OrganisationActivityEvents", onDelete: CASCADE)
+
+  socialAccounts: [OrganisationSocialAccount]
+    @relation(name: "OrganisationSocialAccounts", onDelete: CASCADE)
+
+  wallets: [Wallet] @relation(name: "OrganisationWallet")
+  walletTransactions: [WalletTransaction]
+    @relation(name: "OrganisationWalletTransactions")
+
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

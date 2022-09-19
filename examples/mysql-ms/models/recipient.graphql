@@ -1,0 +1,10 @@
+type Recipient {
+  id: ID! @id
+  campaign: Campaign! @relation(name: "CampaignRecipient")
+  status: String! @default(value: "pending")
+  user: User!
+  opened: Boolean @default(value: false)
+  bounce: Boolean @default(value: false)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

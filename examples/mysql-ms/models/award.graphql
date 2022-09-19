@@ -1,0 +1,13 @@
+type Award {
+  id: ID! @id
+  status: String!
+  type: String!
+  name: String! @unique
+  description: String
+  badge: Badge @relation(name: "AwardBadge", link: INLINE)
+  organisations: [Organisation] @relation(name: "AwardOrganisations")
+  teams: [Team] @relation(name: "AwardTeams")
+  users: [User] @relation(name: "AwardUsers")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

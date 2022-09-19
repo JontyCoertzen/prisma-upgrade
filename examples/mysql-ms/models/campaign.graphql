@@ -1,0 +1,23 @@
+type Campaign {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  name: String!
+  content: String!
+  html: String!
+  subject: String!
+  tags: [Tag]
+  audienceSelection: String! @default(value: "manual-selection") # || all-users
+  audience: Audience
+  audience2: [Audience2] @relation(name: "CampaignAudience", onDelete: CASCADE)
+  scheduledAt: DateTime
+  logs: [AuditLog]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Tag {
+  id: ID! @id
+  name: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

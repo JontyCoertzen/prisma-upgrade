@@ -1,0 +1,12 @@
+type Chat {
+  id: ID! @id
+  roomId: String! @unique
+  type: String! @default(value: "head-to-head")
+  users: [User]! @relation(name: "ChatUsers")
+  messages: [Message]! @relation(name: "ChatMessages", onDelete: CASCADE)
+  noReply: Boolean @default(value: false)
+  unread: Int
+  requestAdmin: Boolean @default(value: false)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,26 @@
+type CompetitionMatchTeam {
+  id: ID! @id
+  match: CompetitionMatch @relation(name: "CompetitionMatchTeams")
+  hasPassword: Boolean! @default(value: false)
+  matchId: String
+  matchPassword: String
+  number: Int!
+  team: CompetitionTeam!
+  result: String
+  score: Int @default(value: 0)
+
+  predictionCount: Int! @default(value: 0)
+  predictions: [MatchTeamPrediction]
+    @relation(name: "CompetitionMatchTeamPredictions", onDelete: CASCADE)
+
+  royaleScore: CompetitionRoyaleScore
+    @relation(name: "CompetitionMatchCompetitionRoyaleScore", link: INLINE)
+  racingScore: CompetitionRacingScore
+    @relation(name: "CompetitionMatchCompetitionRacingScore", link: INLINE)
+  submittedByUser: User @relation(name: "CompetitionScoreSubmittedByUser")
+  submittedByTeam: Team @relation(name: "CompetitionScoreSubmittedByTeam")
+  acceptedByUser: User @relation(name: "CompetitionScoreAcceptedByUser")
+  acceptedByTeam: Team @relation(name: "CompetitionScoreAcceptedByTeam")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

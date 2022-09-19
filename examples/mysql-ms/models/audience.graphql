@@ -1,0 +1,20 @@
+type Audience {
+  id: ID! @id
+  name: String!
+  users: [User]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Audience2 {
+  id: ID! @id
+  campaign: Campaign! @relation(name: "CampaignAudience")
+  status: String! @default(value: "pending")
+  user: User!
+  opened: Boolean @default(value: false)
+  bounce: Boolean @default(value: false)
+  sendError: String
+  mandrillId: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,11 @@
+type Analytics {
+  id: ID! @id
+  ip: String
+  action: String
+  actionId: String
+  entityId: String
+  entityName: String
+  user: User
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

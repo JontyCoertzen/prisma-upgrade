@@ -1,0 +1,17 @@
+type BatchPayment {
+  id: ID! @id
+  status: String!
+  statusMessage: String
+  winnerForms: [WinnerForm] @relation(name: "WinnerFormBatchPayment")
+  withdrawForms: [WithdrawForm] @relation(name: "WithdrawFormBatchPayment")
+  number: Int!
+  code: String
+  amount: String! @default(value: "0.00")
+  currency: String! @default(value: "ZAR")
+  conversionCurrency: String
+  conversionPrice: String
+  conversionDate: DateTime
+  paymentProcessor: String! @default(value: "peach-payments")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

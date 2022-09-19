@@ -1,0 +1,6 @@
+enum StructureType {
+  SINGLEELIM
+  DOUBLEELIM
+  LEAGUE
+  GROUP
+}

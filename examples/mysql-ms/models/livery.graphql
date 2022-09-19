@@ -1,0 +1,28 @@
+type Livery {
+  id: ID! @id
+  category: CarCategory! @relation(name: "CarCategoryLivery")
+  make: CarMake! @relation(name: "CarMakeLivery")
+  logoUrl: String
+  logo: Media @relation(name: "LiveryLogo")
+  number: Int!
+  players: [User] @relation(name: "UserLiveries")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type CarCategory {
+  id: ID! @id
+  name: String!
+  liveries: [Livery] @relation(name: "CarCategoryLivery", onDelete: CASCADE)
+  game: Game @relation(name: "GameCarCategories")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type CarMake {
+  id: ID! @id
+  name: String!
+  liveries: [Livery] @relation(name: "CarMakeLivery", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

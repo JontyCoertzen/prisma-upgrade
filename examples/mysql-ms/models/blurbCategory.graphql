@@ -1,0 +1,8 @@
+type BlurbCategory {
+  id: ID! @id
+  name: String! @unique
+  slug: String! @unique
+  blurbs: [Blurb] @relation(name: "BlurbCategories")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

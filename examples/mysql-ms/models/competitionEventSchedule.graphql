@@ -1,0 +1,21 @@
+type CompetitionEventScheduleGroup {
+  id: ID! @id
+  event: CompetitionEvent! @relation(name: "CompetitionEventScheduleGroup")
+  title: String!
+  fields: [CompetitionEventSchedule]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type CompetitionEventSchedule {
+  id: ID! @id
+  date: DateTime!
+  format: String!
+  round: String!
+  team1: Team! @relation(name: "Team1Schedule")
+  team1Score: Int
+  team2: Team! @relation(name: "Team2Schedule")
+  team2Score: Int
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

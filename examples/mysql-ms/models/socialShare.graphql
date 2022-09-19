@@ -1,0 +1,10 @@
+type SocialShare {
+  id: ID! @id
+  platform: String!
+  moment: String!
+  momentId: String!
+  user: User!
+  callbackUrl: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

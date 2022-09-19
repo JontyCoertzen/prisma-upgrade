@@ -1,0 +1,10 @@
+type OrganisationSocialAccount {
+  id: ID! @id
+  organisation: Organisation @relation(name: "OrganisationSocialAccounts")
+  socialAccount: SocialAccount @relation(name: "SocialAccountOrganisationSocialAccount")
+  accountId: String
+  accountName: String
+  accountUrl: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

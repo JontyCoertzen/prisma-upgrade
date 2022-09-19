@@ -1,0 +1,10 @@
+type Country {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  name: String! @unique
+  slug: String! @unique
+  shortName: String! @unique
+  events: [CompetitionEvent] @relation(name: "CompetitionEventCountries")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

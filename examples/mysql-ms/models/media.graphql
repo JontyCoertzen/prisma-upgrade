@@ -1,0 +1,22 @@
+type Media {
+  id: ID! @id
+  order: Int! @default(value: 0)
+  title: String
+  relatedObjectId: String
+  relatedObject: String
+  relatedObjectField: String
+  url: String!
+  thumbnailUrl: String
+  category: MediaCategory @relation(name: "MediaCategory")
+  transferred: Boolean! @default(value: false)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type MediaCategory {
+  id: ID! @id
+  name: String! @unique
+  media: [Media] @relation(name: "MediaCategory")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

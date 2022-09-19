@@ -1,0 +1,9 @@
+type OrganisationInvite {
+  id: ID! @id
+  email: String!
+  token: String
+  user: User @relation(name: "NewUserOrganisationInvites")
+  organisation: Organisation! @relation(name: "NewOrganisationInvites")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

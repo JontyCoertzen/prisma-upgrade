@@ -1,0 +1,8 @@
+type LogitechScore {
+  id: ID! @id
+  name: String! @unique
+  email: String! @unique
+  total: Int @default(value: 0)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

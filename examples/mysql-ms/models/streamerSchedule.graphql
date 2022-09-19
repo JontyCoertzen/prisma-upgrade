@@ -1,0 +1,9 @@
+type StreamerSchedule {
+  id: ID! @id
+  game: String!
+  day: String!
+  startTime: String!
+  endTime: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,19 @@
+type Blurb {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  title: String!
+  slug: String! @unique
+  content: String!
+  excerptOverride: Boolean! @default(value: false)
+  excerpt: String!
+  logo: Media
+  author: BlurbAuthor! @relation(name: "BlurbAuthor")
+  link: String
+  featured: Boolean
+  realms: [Realm] @relation(name: "BlurbRealms")
+  categories: [BlurbCategory] @relation(name: "BlurbCategories")
+  tags: [BlurbTag] @relation(name: "BlurbTags")
+  publishedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,10 @@
+type ContactForm {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  name: String!
+  email: String!
+  subject: String!
+  message: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

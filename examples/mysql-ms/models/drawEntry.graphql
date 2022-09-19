@@ -1,0 +1,7 @@
+type DrawEntry {
+  id: ID! @id
+  draw: Draw @relation(name: "DrawEntries")
+  user: User! @relation(name: "UserDrawEntries")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

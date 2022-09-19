@@ -1,0 +1,13 @@
+type BankAccount {
+  id: ID! @id
+  type: String! @default(value: "temporary")
+  user: User @relation(name: "UserBankAccount", link: INLINE)
+  bank: String!
+  accountHolder: String!
+  accountNumber: String!
+  branch: String!
+  branchNumber: String!
+  swiftCode: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

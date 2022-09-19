@@ -1,0 +1,7 @@
+type StreamerTag {
+  id: ID! @id
+  name: String! @unique
+  streamers: [Streamer] @relation(name: "StreamerTags")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

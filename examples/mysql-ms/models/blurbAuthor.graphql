@@ -1,0 +1,10 @@
+type BlurbAuthor {
+  id: ID! @id
+  name: String!
+  title: String!
+  biography: String
+  logo: Media
+  blurbs: [Blurb] @relation(name: "BlurbAuthor")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

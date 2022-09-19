@@ -1,0 +1,8 @@
+type Realm {
+  id: ID! @id
+  name: String! @unique
+  slug: String!
+  url: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

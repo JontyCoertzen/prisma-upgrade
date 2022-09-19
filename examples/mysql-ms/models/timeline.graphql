@@ -1,0 +1,15 @@
+type Timeline {
+  id: ID! @id
+  points: [TimelinePoint]
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type TimelinePoint {
+  id: ID! @id
+  date: DateTime!
+  label: String
+  shortLabel: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

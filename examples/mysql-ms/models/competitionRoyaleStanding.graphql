@@ -1,0 +1,42 @@
+type CompetitionRoyaleStanding {
+  id: ID! @id
+  group: CompetitionGroup @relation(name: "CompetitionRoyaleStandings")
+  rank: Int! @default(value: 0)
+  team: CompetitionTeam!
+  week1: Int! @default(value: 0)
+  week2: Int! @default(value: 0)
+  week3: Int! @default(value: 0)
+  week4: Int! @default(value: 0)
+  total: Int! @default(value: 0)
+}
+
+type CompetitionRoyaleScore {
+  id: ID! @id
+  matchTeam: CompetitionMatchTeam
+    @relation(name: "CompetitionMatchCompetitionRoyaleScore")
+  position: Int
+  kills: Int
+  damage: Int
+  player1Score: PlayerCompetitionRoyaleScore
+    @relation(name: "CompetitionRoyalePlayer1Score")
+  player2Score: PlayerCompetitionRoyaleScore
+    @relation(name: "CompetitionRoyalePlayer2Score")
+  player3Score: PlayerCompetitionRoyaleScore
+    @relation(name: "CompetitionRoyalePlayer3Score")
+  player4Score: PlayerCompetitionRoyaleScore
+    @relation(name: "CompetitionRoyalePlayer4Score")
+  player5Score: PlayerCompetitionRoyaleScore
+    @relation(name: "CompetitionRoyalePlayer5Score")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type PlayerCompetitionRoyaleScore {
+  id: ID! @id
+  user: User!
+  position: Int
+  kills: Int
+  damage: Int
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

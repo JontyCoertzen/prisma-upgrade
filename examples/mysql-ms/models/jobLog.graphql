@@ -1,0 +1,8 @@
+type JobLog {
+  id: ID! @id
+  status: String!
+  jobId: String!
+  error: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,7 @@
+type Draw {
+  id: ID! @id
+  name: String! @unique
+  entries: [DrawEntry] @relation(name: "DrawEntries")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

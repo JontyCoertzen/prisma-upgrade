@@ -1,0 +1,8 @@
+type BlurbTag {
+  id: ID! @id
+  name: String! @unique
+  slug: String! @unique
+  blurbs: [Blurb] @relation(name: "BlurbTags")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

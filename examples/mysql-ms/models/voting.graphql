@@ -1,0 +1,10 @@
+type Voting {
+  id: ID! @id
+  caption: String
+  uploadedBy: String
+  media: Media
+  votes: [Vote] @relation(name: "VotingVotes")
+  category: VotingCategory @relation(name: "VotingCategory")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,15 @@
+type CompetitionGroupStanding {
+  id: ID! @id
+  group: CompetitionGroup @relation(name: "CompetitionGroupStandings")
+  rank: Int! @default(value: 0)
+  team: CompetitionTeam!
+  played: Int! @default(value: 0)
+  won: Int! @default(value: 0)
+  drawn: Int! @default(value: 0)
+  lost: Int! @default(value: 0)
+  forfeited: Int! @default(value: 0)
+  scoreFor: Int! @default(value: 0)
+  scoreAgainst: Int! @default(value: 0)
+  difference: Int! @default(value: 0)
+  points: Int! @default(value: 0)
+}

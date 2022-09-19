@@ -1,0 +1,8 @@
+type FaqCategory {
+  id: ID! @id
+  name: String! @unique
+  slug: String! @unique
+  faqs: [Faq] @relation(name: "FaqCategory")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,10 @@
+type CompetitionRound {
+  id: ID! @id
+  number: Int!
+  name: String
+  group: CompetitionGroup @relation(name: "CompetitionGroupRounds")
+  matches: [CompetitionMatch]
+    @relation(name: "CompetitionRoundMatches", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

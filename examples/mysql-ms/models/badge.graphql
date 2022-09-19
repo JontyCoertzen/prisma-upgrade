@@ -1,0 +1,18 @@
+type Badge {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  type: String!
+  order: Int! @default(value: 0)
+  name: String!
+  logo: Media @relation(name: "BadgeLogo")
+  fallbackLogo: Media @relation(name: "BadgeFallbackLogo")
+  rarity: String!
+  missions: [Mission] @relation(name: "MissionBadge")
+  parent: Badge @relation(name: "BadgeUpgradeParent")
+  upgrades: [Badge] @relation(name: "BadgeUpgrades")
+  organisations: [Organisation] @relation(name: "BadgeOrganisations")
+  teams: [Team] @relation(name: "BadgeTeams")
+  users: [User] @relation(name: "BadgeUsers")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

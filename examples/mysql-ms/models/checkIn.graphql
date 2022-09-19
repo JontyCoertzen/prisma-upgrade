@@ -1,0 +1,8 @@
+type CheckIn {
+  id: ID! @id
+  stage: CompetitionStage! @relation(name: "CheckinStage")
+  user: User! @relation(name: "UserCheckIn")
+  team: CompetitionTeam! @relation(name: "TeamCheckIn")
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+}

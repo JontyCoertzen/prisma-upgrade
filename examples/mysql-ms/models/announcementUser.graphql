@@ -1,0 +1,10 @@
+type AnnouncementUser {
+  id: ID! @id
+  status: String! @default(value: "pending")
+  announcement: Announcement! @relation(name: "AnnouncementUserAnnouncement")
+  user: User @relation(name: "AnnouncementUser")
+  read: Boolean! @default(value: false)
+  sendError: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,0 +1,14 @@
+type AuditLog {
+  id: ID! @id
+  action: String!
+  description: String
+  relatedObject: String
+  relatedObjectId: String
+  relatedObjectField: String
+  oldValue: String
+  newValue: String
+  otherValue: String
+  updatedBy: User!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

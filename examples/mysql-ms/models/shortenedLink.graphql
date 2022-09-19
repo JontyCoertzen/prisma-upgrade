@@ -1,0 +1,9 @@
+type ShortenedLink {
+  id: ID! @id
+  url: String!
+  hash: String! @unique
+  referral: String
+  clicks: Int @default(value: 0)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

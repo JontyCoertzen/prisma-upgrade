@@ -1,0 +1,24 @@
+type CompetitionMatch {
+  id: ID! @id
+  competition: Competition @relation(name: "CompetitionMatches")
+  event: CompetitionEvent @relation(name: "CompetitionEventMatches")
+  stage: CompetitionStage @relation(name: "CompetitionStageMatches")
+  group: CompetitionGroup @relation(name: "CompetitionGroupMatches")
+  round: CompetitionRound @relation(name: "CompetitionRoundMatches")
+  number: Int!
+  type: String
+  chat: Chat
+  disputes: [Dispute]
+  status: String! @default(value: "pending")
+  acceptedDate: DateTime
+  schedules: [Schedule]
+  teams: [CompetitionMatchTeam]
+    @relation(name: "CompetitionMatchTeams", onDelete: CASCADE)
+  media: [Media]
+  forfeitWarningAt: DateTime
+  forfeitWarningBy: User @relation(name: "MatchForfeitWarningBy")
+  forfeitedAt: DateTime
+  forfeitedBy: User @relation(name: "MatchForfeiBy")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

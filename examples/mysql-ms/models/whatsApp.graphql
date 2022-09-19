@@ -1,0 +1,10 @@
+type WhatsApp {
+  id: ID! @id
+  status: String!
+  user: User! @relation(name: "UserWhatsApps")
+  content: String!
+  errorCode: Int
+  error: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

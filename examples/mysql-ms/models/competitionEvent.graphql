@@ -1,0 +1,74 @@
+type CompetitionEvent {
+  id: ID! @id
+  eventId: String! @unique
+  order: Int! @default(value: 0)
+  status: String! @default(value: "pending")
+  type: String! @default(value: "cup")
+  name: String
+  namePosition: String @default(value: "append")
+  competition: Competition @relation(name: "CompetitionEvents")
+  game: Game @relation(name: "CompetitionEventGame")
+
+  gameVariant: GameVariant @relation(name: "CompetitionGameVariant")
+  platforms: [Platform] @relation(name: "CompetitionPlatforms")
+
+  gameVariants: [GameVariant] @relation(name: "CompetitionGameVariants")
+
+  countries: [Country]
+    @relation(name: "CompetitionEventCountries", onDelete: CASCADE)
+
+  liveryCategory: CarCategory
+  registrationOpenDate: DateTime
+  registrationCloseDate: DateTime
+  startDate: DateTime
+  endDate: DateTime
+  maxEntriesPerOrganisation: Int! @default(value: 1)
+  maxEntries: Int! @default(value: 0)
+  minEntries: Int! @default(value: 0)
+  rosterLock: Boolean! @default(value: false)
+  banner: Media @relation(name: "CompetitionEventBanner")
+  overviewBanner: Media @relation(name: "CompetitionEventOverviewBanner")
+  signupBanner: Media @relation(name: "CompetitionEventSignupBanner")
+  gameLogo: Media @relation(name: "CompetitionEventGameLogo")
+  showOnHomePage: Boolean! @default(value: true)
+  pageBackground: Media @relation(name: "CompetitionEventPageBackground")
+  client: Client @relation(name: "CompetitionEventClient")
+  vipPrizePool: Boolean! @default(value: true)
+  prizePool: PrizePool
+    @relation(
+      name: "CompetitionEventPrizePool"
+      link: INLINE
+      onDelete: CASCADE
+    )
+  teams: [CompetitionTeam] @relation(name: "CompetitionEventTeams")
+  stages: [CompetitionStage]
+    @relation(name: "CompetitionEventStages", onDelete: CASCADE)
+  matches: [CompetitionMatch] @relation(name: "CompetitionEventMatches")
+  replaceAllWithPageContent: Boolean! @default(value: false)
+  pageContent: PageContent
+    @relation(name: "CompetitionPageContent", onDelete: CASCADE)
+  rulesContent: PageContent
+    @relation(name: "CompetitionGameRulesContent", onDelete: CASCADE)
+  ageRestricted: Boolean @default(value: false)
+  minAge: Int
+  maxAge: Int
+  requiresRegistration: Boolean! @default(value: true)
+  requiresConfirmation: Boolean! @default(value: false)
+
+  streamLink: String
+  streamName: String
+  streamIsLive: Boolean @default(value: false)
+
+  advertisementCampaigns: [AdvertisementCampaign]
+    @relation(name: "AdvertisementCampaignEvents")
+
+  advertisementDisplayType: String
+  advertisementRotationTime: Int #seconds
+  schedules: [CompetitionEventScheduleGroup]
+    @relation(name: "CompetitionEventScheduleGroup")
+
+  popups: [Popup]
+
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

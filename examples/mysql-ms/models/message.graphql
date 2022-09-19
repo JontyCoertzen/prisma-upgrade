@@ -1,0 +1,11 @@
+type Message {
+  id: ID! @id
+  chat: Chat @relation(name: "ChatMessages")
+  from: User! @relation(name: "MessageFrom")
+  isAnonymous: Boolean! @default(value: false)
+  anonymousName: String
+  content: String!
+  status: String! @default(value: "unread")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

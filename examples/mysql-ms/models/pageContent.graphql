@@ -1,0 +1,9 @@
+type PageContent {
+  id: ID! @id
+  title: String
+  body: String!
+  customCss: String
+  customJs: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
